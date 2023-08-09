@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour {
     [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float rotateSpeed= 30f;
 
     private Vector3 targetPosition;
 
     private Transform unitTransform;
 
     private bool moving;
+
     private void Awake() {
         unitTransform = transform;
     }
@@ -25,6 +27,7 @@ public class Unit : MonoBehaviour {
             var moveDir = (targetPosition - unitTransform.position).normalized;
             unitTransform.position += moveDir * Time.deltaTime * moveSpeed;
             
+            unitTransform.forward = Vector3.Slerp(unitTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
             moving = true;
         } else {
             moving = false;
