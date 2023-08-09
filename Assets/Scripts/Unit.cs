@@ -12,13 +12,10 @@ public class Unit : MonoBehaviour {
 
     private void Awake() {
         unitTransform = transform;
+        targetPosition = unitTransform.position;
     }
 
     private void Update() {
-        if (Input.GetMouseButtonDown(0)) {
-            Move(MouseWorld.GetPosition());
-        }
-
         HandleMovement();
     }
 
@@ -34,7 +31,7 @@ public class Unit : MonoBehaviour {
         }
     }
 
-    private void Move(Vector3 targetPos) {
+    public void Move(Vector3 targetPos) {
         targetPosition = targetPos;
     }
 
