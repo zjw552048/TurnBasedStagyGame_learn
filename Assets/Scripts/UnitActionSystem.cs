@@ -1,8 +1,19 @@
+using System;
 using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour {
+
+    public static UnitActionSystem Instance { get; private set; }
+
     [SerializeField] private LayerMask unitsLayerMask;
+
+    public event Action OnSelectedUnitAction;
+    
     private Unit selectedUnit;
+
+    private void Awake() {
+        Instance = this;
+    }
 
     private void Update() {
         if (!Input.GetMouseButtonDown(0)) {
@@ -24,9 +35,18 @@ public class UnitActionSystem : MonoBehaviour {
         }
 
         var unit = hitInfo.collider.GetComponent<Unit>();
-        selectedUnit = unit;
+        SetSelectedUnit(unit);
 
         return true;
+    }
+
+    private void SetSelectedUnit(Unit unit) {
+        selectedUnit = unit;
+        OnSelectedUnitAction?.Invoke();
+    }
+
+    public Unit GetSelectedUnit() {
+        return selectedUnit;
     }
 
     private void HandleMoveUnit() {

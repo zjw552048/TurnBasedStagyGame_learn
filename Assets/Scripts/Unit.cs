@@ -1,8 +1,8 @@
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
-    [SerializeField] private float moveSpeed = 10f;
-    [SerializeField] private float rotateSpeed= 30f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rotateSpeed= 10f;
 
     private Vector3 targetPosition;
 
