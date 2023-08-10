@@ -30,4 +30,8 @@ public class SpinAction : BaseAction {
         targetSpinAngle = 360f;
         onActionCompletedAction = actionCompletedCallback;
     }
+    
+    public override string GetActionName() {
+        return "Spin";
+    }
 }

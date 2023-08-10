@@ -14,7 +14,7 @@ public class MoveAction : BaseAction{
         base.Awake();
         targetPosition = selfTransform.position;
     }
-
+    
     private void Update() {
         HandleMovement();
     }
@@ -76,5 +76,9 @@ public class MoveAction : BaseAction{
         }
 
         return validGridPositionList;
+    }
+    
+    public override string GetActionName() {
+        return "Move";
     }
 }
