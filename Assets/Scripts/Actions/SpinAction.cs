@@ -1,13 +1,12 @@
 using UnityEngine;
 
-public class SpinAction : MonoBehaviour {
+public class SpinAction : BaseAction{
     [SerializeField] private float spinSpeed = 360f;
 
-    private bool spinning;
     private float targetSpinAngle;
 
     private void Update() {
-        if (!spinning) {
+        if (!actionActive) {
             return;
         }
 
@@ -17,14 +16,14 @@ public class SpinAction : MonoBehaviour {
         } else {
             rotateAngle = targetSpinAngle;
             targetSpinAngle = 0f;
-            spinning = false;
+            actionActive = false;
         }
 
         transform.eulerAngles += new Vector3(0, rotateAngle, 0);
     }
 
     public void Spin() {
-        spinning = true;
+        actionActive = true;
         targetSpinAngle = 360f;
     }
 }

@@ -1,22 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : MonoBehaviour {
+public class MoveAction : BaseAction{
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private int maxMoveGrid = 1;
 
-    private Unit unit;
-
-    private Transform selfTransform;
 
     private Vector3 targetPosition;
 
-    private bool moving;
-
-    private void Awake() {
-        unit = GetComponent<Unit>();
-        selfTransform = unit.transform;
+    protected override void Awake() {
+        base.Awake();
         targetPosition = selfTransform.position;
     }
 
@@ -26,7 +20,7 @@ public class MoveAction : MonoBehaviour {
 
     private void HandleMovement() {
         
-        if (!moving) {
+        if (!actionActive) {
             return;
         }
 
@@ -36,17 +30,17 @@ public class MoveAction : MonoBehaviour {
 
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
         } else {
-            moving = false;
+            actionActive = false;
         }
     }
 
     public bool IsMoving() {
-        return moving;
+        return actionActive;
     }
 
     public void Move(GridPosition gridPosition) {
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        moving = true;
+        actionActive = true;
     }
 
     public bool IsValidMoveActionGridPosition(GridPosition gridPosition) {
