@@ -25,12 +25,16 @@ public class MoveAction : MonoBehaviour {
     }
 
     private void HandleMovement() {
+        
+        if (!moving) {
+            return;
+        }
+
         if (Vector3.Distance(targetPosition, selfTransform.position) > 0.1f) {
             var moveDir = (targetPosition - selfTransform.position).normalized;
             selfTransform.position += moveDir * Time.deltaTime * moveSpeed;
 
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
-            moving = true;
         } else {
             moving = false;
         }
@@ -42,6 +46,7 @@ public class MoveAction : MonoBehaviour {
 
     public void Move(GridPosition gridPosition) {
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        moving = true;
     }
 
     public bool IsValidMoveActionGridPosition(GridPosition gridPosition) {

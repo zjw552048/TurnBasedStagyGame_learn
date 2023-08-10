@@ -15,15 +15,17 @@ public class UnitActionManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (!Input.GetMouseButtonDown(0)) {
-            return;
+        if (Input.GetMouseButtonDown(0)) {
+            if (HandleSelectUnit()) {
+                return;
+            }
+
+            HandleMoveUnit();
         }
 
-        if (HandleSelectUnit()) {
-            return;
+        if (Input.GetMouseButtonDown(1)) {
+            HandleSpinUnit();
         }
-
-        HandleMoveUnit();
     }
 
     private bool HandleSelectUnit() {
@@ -61,5 +63,14 @@ public class UnitActionManager : MonoBehaviour {
         }
 
         moveAction.Move(gridPos);
+    }
+    
+    private void HandleSpinUnit() {
+        if (selectedUnit == null) {
+            return;
+        }
+
+        var spineAction = selectedUnit.GetSpineAction();
+        spineAction.Spin();
     }
 }
