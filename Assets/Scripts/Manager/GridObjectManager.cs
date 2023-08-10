@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class GridSystem {
+public class GridObjectManager {
     private readonly int width;
     private readonly int height;
     private readonly float cellSize;
     private readonly GridObject[,] gridObjectArray;
 
-    public GridSystem(int width, int height, float cellSize) {
+    public GridObjectManager(int width, int height, float cellSize) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
@@ -16,9 +16,21 @@ public class GridSystem {
         for (var x = 0; x < width; x++) {
             for (var z = 0; z < height; z++) {
                 var gridPosition = new GridPosition(x, z);
-                gridObjectArray[x, z] = new GridObject(this, gridPosition);
+                gridObjectArray[x, z] = new GridObject(gridPosition);
             }
         }
+    }
+
+    public int GetWidth() {
+        return width;
+    }
+
+    public int GetHeight() {
+        return height;
+    }
+
+    public float GetCellSize() {
+        return cellSize;
     }
 
     public bool IsValidGridPosition(GridPosition gridPosition) {
@@ -52,15 +64,15 @@ public class GridSystem {
 
     #endregion
 
-    public void CreateDebugGrid(Transform debugGridPrefab) {
+    public void CreateDebugGrids(Transform parentTransform, Transform debugGridPrefab) {
         for (var x = 0; x < width; x++) {
             for (var z = 0; z < height; z++) {
                 var gridPosition = new GridPosition(x, z);
-
-                var worldPosition = GetWorldPosition(gridPosition);
                 var gridObject = GetGridObject(gridPosition);
 
-                var debugGridTransform = GameObject.Instantiate(debugGridPrefab, worldPosition, Quaternion.identity);
+                var debugGridTransform = GameObject.Instantiate(debugGridPrefab, parentTransform);
+                debugGridTransform.position = GetWorldPosition(gridPosition);
+
                 var debugGrid = debugGridTransform.GetComponent<DebugGridObject>();
                 debugGrid.SetGridObject(gridObject);
             }

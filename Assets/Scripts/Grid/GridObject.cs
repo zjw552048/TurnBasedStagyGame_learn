@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 
 public class GridObject {
-    private GridSystem gridSystem;
     private GridPosition gridPosition;
     private List<Unit> unitList;
 
-    public GridObject(GridSystem gridSystem, GridPosition gridPosition) {
-        this.gridSystem = gridSystem;
+    public GridObject(GridPosition gridPosition) {
         this.gridPosition = gridPosition;
         unitList = new List<Unit>();
     }

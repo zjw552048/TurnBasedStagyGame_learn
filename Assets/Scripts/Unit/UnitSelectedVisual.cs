@@ -9,17 +9,17 @@ public class UnitSelectedVisual : MonoBehaviour {
     }
 
     private void Start() {
-        UnitActionSystem.Instance.OnSelectedUnitAction += UnitActionSystem_OnSelectedUnitAction;
+        UnitActionManager.Instance.OnSelectedUnitAction += UnitActionManager_OnSelectedUnitAction;
 
         UpdateVisual();
     }
 
-    private void UnitActionSystem_OnSelectedUnitAction() {
+    private void UnitActionManager_OnSelectedUnitAction() {
         UpdateVisual();
     }
 
     private void UpdateVisual() {
-        var selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+        var selectedUnit = UnitActionManager.Instance.GetSelectedUnit();
         meshRenderer.enabled = selectedUnit == unit;
     }
 }

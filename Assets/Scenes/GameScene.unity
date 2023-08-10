@@ -282,8 +282,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.3006394, y: -0.00000001519273, z: 0.000000004789086, w: 0.9537379}
-  m_LocalPosition: {x: 6, y: 7, z: -4}
+  m_LocalRotation: {x: 0.35826376, y: -0.000000022774032, z: 0.000000008739215, w: 0.93362045}
+  m_LocalPosition: {x: 6, y: 9, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -549,8 +549,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442493316}
-  m_LocalRotation: {x: 0.3006394, y: -0.00000001519273, z: 0.000000004789086, w: 0.9537379}
-  m_LocalPosition: {x: 6, y: 7, z: -4}
+  m_LocalRotation: {x: 0.35826376, y: -0.000000022774032, z: 0.000000008739215, w: 0.93362045}
+  m_LocalPosition: {x: 6, y: 9, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -845,7 +845,7 @@ GameObject:
   - component: {fileID: 984913175}
   - component: {fileID: 984913174}
   m_Layer: 0
-  m_Name: UnitActionSystem
+  m_Name: UnitActionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -987,6 +987,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1462460538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1462460540}
+  - component: {fileID: 1462460539}
+  m_Layer: 0
+  m_Name: GridVisualManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1462460539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462460538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44177ff640f766d4983301860d63495d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridVisualPrefab: {fileID: 3240001156007197118, guid: b71f72556db8baa4190922b622b50d86,
+    type: 3}
+--- !u!4 &1462460540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462460538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.4253511, y: 0.6400402, z: 2.213052}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1622548566
 GameObject:
   m_ObjectHideFlags: 3
@@ -1034,7 +1080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 7, z: -10}
+  m_FollowOffset: {x: 0, y: 9, z: -10}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0

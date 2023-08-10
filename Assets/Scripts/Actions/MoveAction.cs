@@ -49,7 +49,7 @@ public class MoveAction : MonoBehaviour {
         return validGridPositionList.Contains(gridPosition);
     }
 
-    private List<GridPosition> GetValidMoveActionGridPositions() {
+    public List<GridPosition> GetValidMoveActionGridPositions() {
         var unitGridPosition = unit.GetGridPosition();
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxMoveGrid; x <= maxMoveGrid; x++) {
@@ -68,7 +68,7 @@ public class MoveAction : MonoBehaviour {
                     continue;
                 }
 
-                Debug.Log($"x:{x}, z:{z}, maxMoveGrid:{maxMoveGrid}, " + new GridPosition(x, z));
+                // Debug.Log($"x:{x}, z:{z}, maxMoveGrid:{maxMoveGrid}, " + new GridPosition(x, z));
                 validGridPositionList.Add(testGridPosition);
             }
         }

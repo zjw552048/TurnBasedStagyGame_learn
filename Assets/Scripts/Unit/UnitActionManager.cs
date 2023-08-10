@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
 
-public class UnitActionSystem : MonoBehaviour {
-    public static UnitActionSystem Instance { get; private set; }
+public class UnitActionManager : MonoBehaviour {
+    public static UnitActionManager Instance { get; private set; }
 
     [SerializeField] private LayerMask unitsLayerMask;
 
