@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +32,7 @@ public class MoveAction : BaseAction{
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
         } else {
             actionActive = false;
+            onActionCompletedAction?.Invoke();
         }
     }
 
@@ -38,9 +40,10 @@ public class MoveAction : BaseAction{
         return actionActive;
     }
 
-    public void Move(GridPosition gridPosition) {
+    public void Move(GridPosition gridPosition, Action actionCompletedCallback) {
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         actionActive = true;
+        onActionCompletedAction = actionCompletedCallback;
     }
 
     public bool IsValidMoveActionGridPosition(GridPosition gridPosition) {

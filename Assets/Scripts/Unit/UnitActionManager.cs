@@ -10,11 +10,17 @@ public class UnitActionManager : MonoBehaviour {
 
     private Unit selectedUnit;
 
+    private bool busying;
+
     private void Awake() {
         Instance = this;
     }
 
     private void Update() {
+        if (busying) {
+            return;
+        }
+
         if (Input.GetMouseButtonDown(0)) {
             if (HandleSelectUnit()) {
                 return;
@@ -50,6 +56,18 @@ public class UnitActionManager : MonoBehaviour {
         return selectedUnit;
     }
 
+    #region busying状态
+
+    private void SetBusy() {
+        busying = true;
+    }
+
+    private void ClearBusy() {
+        busying = false;
+    }
+
+    #endregion
+
     private void HandleMoveUnit() {
         if (selectedUnit == null) {
             return;
@@ -62,15 +80,18 @@ public class UnitActionManager : MonoBehaviour {
             return;
         }
 
-        moveAction.Move(gridPos);
+        SetBusy();
+        moveAction.Move(gridPos, ClearBusy);
     }
-    
+
     private void HandleSpinUnit() {
         if (selectedUnit == null) {
             return;
         }
 
         var spineAction = selectedUnit.GetSpineAction();
-        spineAction.Spin();
+        
+        SetBusy();
+        spineAction.Spin(ClearBusy);
     }
 }

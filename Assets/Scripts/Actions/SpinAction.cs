@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class SpinAction : BaseAction{
+public class SpinAction : BaseAction {
     [SerializeField] private float spinSpeed = 360f;
 
     private float targetSpinAngle;
@@ -16,14 +17,17 @@ public class SpinAction : BaseAction{
         } else {
             rotateAngle = targetSpinAngle;
             targetSpinAngle = 0f;
+
             actionActive = false;
+            onActionCompletedAction?.Invoke();
         }
 
         transform.eulerAngles += new Vector3(0, rotateAngle, 0);
     }
 
-    public void Spin() {
+    public void Spin(Action actionCompletedCallback) {
         actionActive = true;
         targetSpinAngle = 360f;
+        onActionCompletedAction = actionCompletedCallback;
     }
 }
