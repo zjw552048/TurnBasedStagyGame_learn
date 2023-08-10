@@ -46,6 +46,10 @@ public class Unit : MonoBehaviour {
         return spinAction;
     }
 
+    public BaseAction GetDefaultAction() {
+        return baseActionArray[0];
+    }
+
     #endregion
 
     public BaseAction[] GetBaseActions() {

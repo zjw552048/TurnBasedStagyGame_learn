@@ -9,6 +9,7 @@ public class UnitActionManager : MonoBehaviour {
     public event Action OnSelectedUnitAction;
 
     private Unit selectedUnit;
+    private BaseAction selectedAction;
 
     private bool busying;
 
@@ -26,11 +27,7 @@ public class UnitActionManager : MonoBehaviour {
                 return;
             }
 
-            HandleMoveUnit();
-        }
-
-        if (Input.GetMouseButtonDown(1)) {
-            HandleSpinUnit();
+            HandleSelectedAction();
         }
     }
 
@@ -49,11 +46,20 @@ public class UnitActionManager : MonoBehaviour {
 
     private void SetSelectedUnit(Unit unit) {
         selectedUnit = unit;
+        SetSelectedAction(unit.GetDefaultAction());
         OnSelectedUnitAction?.Invoke();
     }
 
     public Unit GetSelectedUnit() {
         return selectedUnit;
+    }
+
+    public void SetSelectedAction(BaseAction baseAction) {
+        selectedAction = baseAction;
+    }
+
+    public BaseAction GetSelectedAction() {
+        return selectedAction;
     }
 
     #region busying状态
@@ -68,30 +74,27 @@ public class UnitActionManager : MonoBehaviour {
 
     #endregion
 
-    private void HandleMoveUnit() {
+    private void HandleSelectedAction() {
         if (selectedUnit == null) {
             return;
         }
 
-        var worldPos = MouseWorld.GetPosition();
-        var gridPos = LevelGrid.Instance.GetGridPosition(worldPos);
-        var moveAction = selectedUnit.GetMoveAction();
-        if (!moveAction.IsValidMoveActionGridPosition(gridPos)) {
-            return;
+        switch (selectedAction) {
+            case MoveAction moveAction:
+                var worldPos = MouseWorld.GetPosition();
+                var gridPos = LevelGrid.Instance.GetGridPosition(worldPos);
+                if (!moveAction.IsValidMoveActionGridPosition(gridPos)) {
+                    return;
+                }
+
+                SetBusy();
+                moveAction.Move(gridPos, ClearBusy);
+                break;
+
+            case SpinAction spinAction:
+                SetBusy();
+                spinAction.Spin(ClearBusy);
+                break;
         }
-
-        SetBusy();
-        moveAction.Move(gridPos, ClearBusy);
-    }
-
-    private void HandleSpinUnit() {
-        if (selectedUnit == null) {
-            return;
-        }
-
-        var spineAction = selectedUnit.GetSpineAction();
-        
-        SetBusy();
-        spineAction.Spin(ClearBusy);
     }
 }
