@@ -21,6 +21,8 @@ public class GridSystem {
         }
     }
 
+    #region Grid\World position转换
+
     public Vector3 GetWorldPosition(GridPosition gridPosition) {
         return new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
     }
@@ -32,9 +34,16 @@ public class GridSystem {
         );
     }
 
+    #endregion
+
+
+    #region GridObject
+
     public GridObject GetGridObject(GridPosition gridPosition) {
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }
+
+    #endregion
 
     public void CreateDebugGrid(Transform debugGridPrefab) {
         for (var x = 0; x < width; x++) {
