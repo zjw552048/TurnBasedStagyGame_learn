@@ -39,9 +39,33 @@ public class UnitActionManager : MonoBehaviour {
         }
 
         var unit = hitInfo.collider.GetComponent<Unit>();
+        if (selectedUnit == unit) {
+            return false;
+        }
+        
         SetSelectedUnit(unit);
 
         return true;
+    }
+
+    private void HandleSelectedAction() {
+        if (selectedUnit == null) {
+            return;
+        }
+
+        if (selectedAction == null) {
+            return;
+        }
+
+        var worldPos = MouseWorld.GetPosition();
+        var gridPos = LevelGrid.Instance.GetGridPosition(worldPos);
+
+        if (!selectedAction.IsValidMoveActionGridPosition(gridPos)) {
+            return;
+        }
+
+        SetBusy();
+        selectedAction.TakeAction(gridPos, ClearBusy);
     }
 
     private void SetSelectedUnit(Unit unit) {
@@ -73,28 +97,4 @@ public class UnitActionManager : MonoBehaviour {
     }
 
     #endregion
-
-    private void HandleSelectedAction() {
-        if (selectedUnit == null) {
-            return;
-        }
-
-        switch (selectedAction) {
-            case MoveAction moveAction:
-                var worldPos = MouseWorld.GetPosition();
-                var gridPos = LevelGrid.Instance.GetGridPosition(worldPos);
-                if (!moveAction.IsValidMoveActionGridPosition(gridPos)) {
-                    return;
-                }
-
-                SetBusy();
-                moveAction.Move(gridPos, ClearBusy);
-                break;
-
-            case SpinAction spinAction:
-                SetBusy();
-                spinAction.Spin(ClearBusy);
-                break;
-        }
-    }
 }

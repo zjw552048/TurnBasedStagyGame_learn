@@ -12,7 +12,7 @@ public class UnitVisual : MonoBehaviour {
     }
 
     private void Update() {
-        if (unitIsMoving == moveAction.IsMoving()) {
+        if (unitIsMoving == moveAction.IsActionActive()) {
             return;
         }
 

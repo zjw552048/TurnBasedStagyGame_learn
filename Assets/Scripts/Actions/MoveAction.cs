@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveAction : BaseAction{
+public class MoveAction : BaseAction {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private int maxMoveGrid = 1;
@@ -14,13 +14,12 @@ public class MoveAction : BaseAction{
         base.Awake();
         targetPosition = selfTransform.position;
     }
-    
+
     private void Update() {
         HandleMovement();
     }
 
     private void HandleMovement() {
-        
         if (!actionActive) {
             return;
         }
@@ -32,26 +31,21 @@ public class MoveAction : BaseAction{
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
         } else {
             actionActive = false;
-            onActionCompletedAction?.Invoke();
+            actionCompletedCallback?.Invoke();
         }
     }
 
-    public bool IsMoving() {
-        return actionActive;
+    public override string GetActionName() {
+        return "Move";
     }
 
-    public void Move(GridPosition gridPosition, Action actionCompletedCallback) {
+    public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         actionActive = true;
-        onActionCompletedAction = actionCompletedCallback;
+        this.actionCompletedCallback = actionCompletedCallback;
     }
 
-    public bool IsValidMoveActionGridPosition(GridPosition gridPosition) {
-        var validGridPositionList = GetValidMoveActionGridPositions();
-        return validGridPositionList.Contains(gridPosition);
-    }
-
-    public List<GridPosition> GetValidMoveActionGridPositions() {
+    public override List<GridPosition> GetValidMoveActionGridPositions() {
         var unitGridPosition = unit.GetGridPosition();
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxMoveGrid; x <= maxMoveGrid; x++) {
@@ -76,9 +70,5 @@ public class MoveAction : BaseAction{
         }
 
         return validGridPositionList;
-    }
-    
-    public override string GetActionName() {
-        return "Move";
     }
 }

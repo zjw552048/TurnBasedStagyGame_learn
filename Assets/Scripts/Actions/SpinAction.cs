@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpinAction : BaseAction {
@@ -19,19 +20,25 @@ public class SpinAction : BaseAction {
             targetSpinAngle = 0f;
 
             actionActive = false;
-            onActionCompletedAction?.Invoke();
+            actionCompletedCallback?.Invoke();
         }
 
         transform.eulerAngles += new Vector3(0, rotateAngle, 0);
     }
 
-    public void Spin(Action actionCompletedCallback) {
-        actionActive = true;
-        targetSpinAngle = 360f;
-        onActionCompletedAction = actionCompletedCallback;
-    }
-    
     public override string GetActionName() {
         return "Spin";
+    }
+
+    public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
+        actionActive = true;
+        targetSpinAngle = 360f;
+        this.actionCompletedCallback = actionCompletedCallback;
+    }
+
+    public override List<GridPosition> GetValidMoveActionGridPositions() {
+        return new List<GridPosition> {
+            unit.GetGridPosition()
+        };
     }
 }
