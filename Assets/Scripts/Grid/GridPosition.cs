@@ -2,8 +2,8 @@ using System;
 
 public struct GridPosition :IEquatable<GridPosition> {
 
-    public int x;
-    public int z;
+    public readonly int x;
+    public readonly int z;
 
     public GridPosition(int x, int z) {
         this.x = x;
