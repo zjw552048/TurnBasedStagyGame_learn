@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UnitActionManager : MonoBehaviour {
     public static UnitActionManager Instance { get; private set; }
@@ -23,7 +24,13 @@ public class UnitActionManager : MonoBehaviour {
         }
 
         if (Input.GetMouseButtonDown(0)) {
+            if (EventSystem.current.IsPointerOverGameObject()) {
+                // 点击到UI
+                return;
+            }
+
             if (HandleSelectUnit()) {
+                // 点击到Unit
                 return;
             }
 
@@ -42,7 +49,7 @@ public class UnitActionManager : MonoBehaviour {
         if (selectedUnit == unit) {
             return false;
         }
-        
+
         SetSelectedUnit(unit);
 
         return true;
