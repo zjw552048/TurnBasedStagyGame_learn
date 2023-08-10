@@ -45,6 +45,11 @@ public class LevelGrid : MonoBehaviour {
         AddUnitAtGridPosition(unit, toPos);
     }
 
+    public bool HasUnitAtGridPosition(GridPosition gridPosition) {
+        var gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.HasAnyUnit();
+    }
+
     #endregion
 
     #region 坐标转换
@@ -58,4 +63,8 @@ public class LevelGrid : MonoBehaviour {
     }
 
     #endregion
+
+    public bool IsValidGridPosition(GridPosition gridPosition) {
+        return gridSystem.IsValidGridPosition(gridPosition);
+    }
 }

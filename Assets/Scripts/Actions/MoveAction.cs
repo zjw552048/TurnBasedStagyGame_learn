@@ -40,18 +40,36 @@ public class MoveAction : MonoBehaviour {
         return moving;
     }
 
-    public void Move(Vector3 targetPos) {
-        targetPosition = targetPos;
+    public void Move(GridPosition gridPosition) {
+        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
     }
 
-    public List<GridPosition> GetValidGridPositions() {
+    public bool IsValidMoveActionGridPosition(GridPosition gridPosition) {
+        var validGridPositionList = GetValidMoveActionGridPositions();
+        return validGridPositionList.Contains(gridPosition);
+    }
+
+    private List<GridPosition> GetValidMoveActionGridPositions() {
         var unitGridPosition = unit.GetGridPosition();
         var validGridPositionList = new List<GridPosition>();
-        for (int x = -maxMoveGrid; x <= maxMoveGrid; x++) {
-            for (int z = -maxMoveGrid; z <= maxMoveGrid; z++) {
+        for (var x = -maxMoveGrid; x <= maxMoveGrid; x++) {
+            for (var z = -maxMoveGrid; z <= maxMoveGrid; z++) {
                 var testGridPosition = unitGridPosition + new GridPosition(x, z);
 
+                if (testGridPosition == unitGridPosition) {
+                    continue;
+                }
+
+                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) {
+                    continue;
+                }
+
+                if (LevelGrid.Instance.HasUnitAtGridPosition(testGridPosition)) {
+                    continue;
+                }
+
                 Debug.Log($"x:{x}, z:{z}, maxMoveGrid:{maxMoveGrid}, " + new GridPosition(x, z));
+                validGridPositionList.Add(testGridPosition);
             }
         }
 
