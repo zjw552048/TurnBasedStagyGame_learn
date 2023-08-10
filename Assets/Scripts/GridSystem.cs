@@ -1,7 +1,6 @@
 using UnityEngine;
 
 public class GridSystem {
-    private Transform debugGridPrefab;
     private readonly int width;
     private readonly int height;
     private readonly float cellSize;
@@ -33,15 +32,21 @@ public class GridSystem {
         );
     }
 
+    public GridObject GetGridObject(GridPosition gridPosition) {
+        return gridObjectArray[gridPosition.x, gridPosition.z];
+    }
+
     public void CreateDebugGrid(Transform debugGridPrefab) {
         for (var x = 0; x < width; x++) {
             for (var z = 0; z < height; z++) {
                 var gridPosition = new GridPosition(x, z);
 
                 var worldPosition = GetWorldPosition(gridPosition);
+                var gridObject = GetGridObject(gridPosition);
+
                 var debugGridTransform = GameObject.Instantiate(debugGridPrefab, worldPosition, Quaternion.identity);
-                var debugGrid = debugGridTransform.GetComponent<DebugGrid>();
-                debugGrid.SetText(gridPosition);
+                var debugGrid = debugGridTransform.GetComponent<DebugGridObject>();
+                debugGrid.SetGridObject(gridObject);
             }
         }
     }
