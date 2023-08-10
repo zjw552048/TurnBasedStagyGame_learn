@@ -16,10 +16,10 @@ public class LevelGrid : MonoBehaviour {
         gridSystem = new GridSystem(10, 10, 2);
         gridSystem.CreateDebugGrid(debugGridPrefab);
     }
-    
+
     private void Update() {
         if (Input.GetMouseButtonDown(0)) {
-            Debug.Log(gridSystem.GetGridPosition(MouseWorld.GetPosition()));
+            Debug.Log($"LevelGrid click GridPosition: {gridSystem.GetGridPosition(MouseWorld.GetPosition())}");
         }
     }
 

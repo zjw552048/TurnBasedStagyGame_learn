@@ -2,13 +2,12 @@ using System;
 using UnityEngine;
 
 public class UnitActionSystem : MonoBehaviour {
-
     public static UnitActionSystem Instance { get; private set; }
 
     [SerializeField] private LayerMask unitsLayerMask;
 
     public event Action OnSelectedUnitAction;
-    
+
     private Unit selectedUnit;
 
     private void Awake() {
@@ -54,6 +53,9 @@ public class UnitActionSystem : MonoBehaviour {
             return;
         }
 
-        selectedUnit.Move(MouseWorld.GetPosition());
+        var worldPos = MouseWorld.GetPosition();
+        var gridPos = LevelGrid.Instance.GetGridPosition(worldPos);
+        worldPos = LevelGrid.Instance.GetWorldPosition(gridPos);
+        selectedUnit.GetMoveAction().Move(worldPos);
     }
 }

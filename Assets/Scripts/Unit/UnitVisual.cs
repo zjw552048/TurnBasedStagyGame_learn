@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class UnitVisual : MonoBehaviour {
-    [SerializeField] private Unit unit;
+    [SerializeField] private MoveAction moveAction;
     private Animator animator;
 
     private bool unitIsMoving;
@@ -12,7 +12,7 @@ public class UnitVisual : MonoBehaviour {
     }
 
     private void Update() {
-        if (unitIsMoving == unit.IsMoving()) {
+        if (unitIsMoving == moveAction.IsMoving()) {
             return;
         }
 
