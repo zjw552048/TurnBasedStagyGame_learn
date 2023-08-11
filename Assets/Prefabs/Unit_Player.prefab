@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2677735893400013775}
   - component: {fileID: 1480485204487875728}
   m_Layer: 7
-  m_Name: Unit
+  m_Name: Unit_Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9ba5a87b2302940a04a62490451087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 1
 --- !u!114 &2677735893400013775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5882f8e6795a1244be17a291445d3c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spinSpeed: 360
 --- !u!1 &9146742371459690253
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +365,11 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 137720934533220950, guid: 2f3e27eecb190e44a9af50723c394274,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 673443bdcb7bf2f47be93ce60e68966f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

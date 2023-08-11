@@ -4,6 +4,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
     public static event Action OnAnyUnitActionPointsChangedAction;
 
+    [SerializeField] private bool isPlayer;
+
     private GridPosition gridPosition;
 
     private BaseAction[] baseActionArray;
@@ -14,7 +16,7 @@ public class Unit : MonoBehaviour {
     private void Awake() {
         baseActionArray = GetComponents<BaseAction>();
 
-        ResetActionPoints();
+        actionPoints = MAX_ACTION_POINTS;
     }
 
     private void Start() {
@@ -56,13 +58,20 @@ public class Unit : MonoBehaviour {
         return baseActionArray;
     }
 
+    public bool IsPlayer() {
+        return isPlayer;
+    }
+
     #endregion
 
     #region actionPoints
 
     private void ResetActionPoints() {
-        actionPoints = MAX_ACTION_POINTS;
-        OnAnyUnitActionPointsChangedAction?.Invoke();
+        if (isPlayer && TurnManager.Instance.IsPlayerTurn() ||
+            !isPlayer && !TurnManager.Instance.IsPlayerTurn()) {
+            actionPoints = MAX_ACTION_POINTS;
+            OnAnyUnitActionPointsChangedAction?.Invoke();
+        }
     }
 
     public int GetActionPoints() {

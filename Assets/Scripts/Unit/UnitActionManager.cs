@@ -10,7 +10,7 @@ public class UnitActionManager : MonoBehaviour {
     public event Action OnSelectedUnitAction;
     public event Action OnSelectedActionAction;
     public event Action OnSelectedActionStartedAction;
-    
+
     public event Action<bool> OnUnitActionBusyChangedAction;
 
     private Unit selectedUnit;
@@ -28,6 +28,11 @@ public class UnitActionManager : MonoBehaviour {
         }
 
         if (Input.GetMouseButtonDown(0)) {
+            if (!TurnManager.Instance.IsPlayerTurn()) {
+                // 非玩家回合
+                return;
+            }
+
             if (EventSystem.current.IsPointerOverGameObject()) {
                 // 点击到UI
                 return;
@@ -51,6 +56,10 @@ public class UnitActionManager : MonoBehaviour {
 
         var unit = hitInfo.collider.GetComponent<Unit>();
         if (selectedUnit == unit) {
+            return false;
+        }
+
+        if (!unit.IsPlayer()) {
             return false;
         }
 
@@ -87,7 +96,7 @@ public class UnitActionManager : MonoBehaviour {
     private void SetSelectedUnit(Unit unit) {
         selectedUnit = unit;
         OnSelectedUnitAction?.Invoke();
-        
+
         SetSelectedAction(unit.GetDefaultAction());
     }
 

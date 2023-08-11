@@ -12,10 +12,20 @@ public class TurnUI : MonoBehaviour {
         TurnManager.Instance.OnTurnChangedAction += TurnManager_OnTurnChangedAction;
 
         UpdateTurnNumber();
+        UpdateTurnBtnVisual();
     }
 
     private void TurnManager_OnTurnChangedAction() {
         UpdateTurnNumber();
+        UpdateTurnBtnVisual();
+    }
+
+    private void UpdateTurnBtnVisual() {
+        if (TurnManager.Instance.IsPlayerTurn()) {
+            endTurnBtn.gameObject.SetActive(true);
+        } else {
+            endTurnBtn.gameObject.SetActive(false);
+        }
     }
 
     private void UpdateTurnNumber() {
