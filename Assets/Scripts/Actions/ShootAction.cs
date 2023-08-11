@@ -77,6 +77,7 @@ public class ShootAction : BaseAction {
 
             case State.CoolOff:
                 ActionComplete();
+                CameraManager.Instance.HideActionCamera();
                 break;
 
             default:
@@ -102,6 +103,7 @@ public class ShootAction : BaseAction {
         canShootBullet = true;
 
         ActionStart(actionCompletedCallback);
+        CameraManager.Instance.ShowActionCamera(unit, shootTargetUnit);
     }
 
     public override List<GridPosition> GetValidMoveActionGridPositions() {
