@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ShootAction : BaseAction {
     [SerializeField] private int maxShootGrid = 7;
     [SerializeField] private float rotateSpeed = 10f;
+    [SerializeField] private Transform gunFirePoint;
+    [SerializeField] private Transform bulletProjectilePrefab;
 
     public event Action OnShootAction;
 
@@ -82,7 +85,9 @@ public class ShootAction : BaseAction {
     }
 
     private void Shoot() {
-        shootTargetUnit.Damaged();
+        var bulletProjectTransform = Instantiate(bulletProjectilePrefab, gunFirePoint.position, quaternion.identity);
+        var bulletProjectile = bulletProjectTransform.GetComponent<BulletProjectile>();
+        bulletProjectile.SetTargetPos(shootTargetUnit.GetWorldPosition());
     }
 
     public override string GetActionName() {
