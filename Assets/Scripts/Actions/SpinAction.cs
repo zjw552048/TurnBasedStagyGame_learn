@@ -41,4 +41,8 @@ public class SpinAction : BaseAction {
             unit.GetGridPosition()
         };
     }
+
+    public override int NeedCostActionPoints() {
+        return 2;
+    }
 }

@@ -9,6 +9,7 @@ public class UnitActionManager : MonoBehaviour {
 
     public event Action OnSelectedUnitAction;
     public event Action OnSelectedActionAction;
+    public event Action OnSelectedActionStartedAction;
     
     public event Action<bool> OnUnitActionBusyChangedAction;
 
@@ -74,8 +75,13 @@ public class UnitActionManager : MonoBehaviour {
             return;
         }
 
+        if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction)) {
+            return;
+        }
+
         SetBusy();
         selectedAction.TakeAction(gridPos, ClearBusy);
+        OnSelectedActionStartedAction?.Invoke();
     }
 
     private void SetSelectedUnit(Unit unit) {

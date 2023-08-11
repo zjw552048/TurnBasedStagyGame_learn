@@ -1,16 +1,16 @@
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
-    private MoveAction moveAction;
-    private SpinAction spinAction;
     private GridPosition gridPosition;
 
     private BaseAction[] baseActionArray;
 
+    private int actionPoints;
+
     private void Awake() {
-        moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
+
+        actionPoints = 2;
     }
 
     private void Start() {
@@ -32,27 +32,44 @@ public class Unit : MonoBehaviour {
         gridPosition = newGridPosition;
     }
 
+    #region 获取unit信息
+
     public GridPosition GetGridPosition() {
         return gridPosition;
-    }
-
-    #region RunAction
-
-    public MoveAction GetMoveAction() {
-        return moveAction;
-    }
-
-    public SpinAction GetSpineAction() {
-        return spinAction;
     }
 
     public BaseAction GetDefaultAction() {
         return baseActionArray[0];
     }
 
-    #endregion
-
     public BaseAction[] GetBaseActions() {
         return baseActionArray;
     }
+
+    #endregion
+
+    #region actionPoints
+
+    public int GetActionPoints() {
+        return actionPoints;
+    }
+
+    private void SpendActionPointsToTakeAction(BaseAction action) {
+        actionPoints -= action.NeedCostActionPoints();
+    }
+
+    private bool CanSpendActionPointsToTakeAction(BaseAction action) {
+        return actionPoints >= action.NeedCostActionPoints();
+    }
+
+    public bool TrySpendActionPointsToTakeAction(BaseAction action) {
+        if (!CanSpendActionPointsToTakeAction(action)) {
+            return false;
+        }
+
+        SpendActionPointsToTakeAction(action);
+        return true;
+    }
+
+    #endregion
 }
