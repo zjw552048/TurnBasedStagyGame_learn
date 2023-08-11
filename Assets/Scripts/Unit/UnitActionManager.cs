@@ -9,6 +9,8 @@ public class UnitActionManager : MonoBehaviour {
 
     public event Action OnSelectedUnitAction;
     public event Action OnSelectedActionAction;
+    
+    public event Action<bool> OnUnitActionBusyChangedAction;
 
     private Unit selectedUnit;
     private BaseAction selectedAction;
@@ -100,10 +102,12 @@ public class UnitActionManager : MonoBehaviour {
 
     private void SetBusy() {
         busying = true;
+        OnUnitActionBusyChangedAction?.Invoke(busying);
     }
 
     private void ClearBusy() {
         busying = false;
+        OnUnitActionBusyChangedAction?.Invoke(busying);
     }
 
     #endregion
