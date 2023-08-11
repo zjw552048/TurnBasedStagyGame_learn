@@ -13,8 +13,11 @@ public class Unit : MonoBehaviour {
     private int actionPoints;
     private const int MAX_ACTION_POINTS = 2;
 
+    private HealthComponent healthComponent;
+
     private void Awake() {
         baseActionArray = GetComponents<BaseAction>();
+        healthComponent = GetComponent<HealthComponent>();
 
         actionPoints = MAX_ACTION_POINTS;
     }
@@ -24,10 +27,16 @@ public class Unit : MonoBehaviour {
         LevelGrid.Instance.AddUnitAtGridPosition(this, gridPosition);
 
         TurnManager.Instance.OnTurnChangedAction += TurnManager_OnTurnChangedAction;
+        healthComponent.OnHealthZeroAction += HealthComponent_OnHealthZeroAction;
     }
 
     private void TurnManager_OnTurnChangedAction() {
         ResetActionPoints();
+    }
+
+    private void HealthComponent_OnHealthZeroAction() {
+        LevelGrid.Instance.RemoveUnitAtGridPosition(this, gridPosition);
+        Destroy(gameObject);
     }
 
     private void Update() {
@@ -66,6 +75,10 @@ public class Unit : MonoBehaviour {
         return isPlayer;
     }
 
+    public HealthComponent GetHealthComponent() {
+        return healthComponent;
+    }
+
     #endregion
 
     #region actionPoints
@@ -101,8 +114,4 @@ public class Unit : MonoBehaviour {
     }
 
     #endregion
-
-    public void Damaged() {
-        Debug.Log(transform + "Damaged!");
-    }
 }

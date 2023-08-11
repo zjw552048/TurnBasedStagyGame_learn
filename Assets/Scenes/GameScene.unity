@@ -975,6 +975,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit_Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 4486626774403213982, guid: 1e08c6d53c3fa09439c0478649fc2ce5,
+        type: 3}
+      propertyPath: healthValue
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7118926233569273048, guid: 1e08c6d53c3fa09439c0478649fc2ce5,
         type: 3}
       propertyPath: m_RootOrder

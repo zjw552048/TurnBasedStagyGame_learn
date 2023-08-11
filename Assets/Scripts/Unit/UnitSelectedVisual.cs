@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class UnitSelectedVisual : MonoBehaviour {
@@ -12,6 +13,10 @@ public class UnitSelectedVisual : MonoBehaviour {
         UnitActionManager.Instance.OnSelectedUnitAction += UnitActionManager_OnSelectedUnitAction;
 
         UpdateVisual();
+    }
+
+    private void OnDestroy() {
+        UnitActionManager.Instance.OnSelectedUnitAction -= UnitActionManager_OnSelectedUnitAction;
     }
 
     private void UnitActionManager_OnSelectedUnitAction() {

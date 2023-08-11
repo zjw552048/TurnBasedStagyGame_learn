@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour {
     [SerializeField] private float moveSpeed = 200f;
+    [SerializeField] private int damageAmount = 40;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Transform bulletHitVFXPrefab;
+
+    private HealthComponent healthComponent;
 
     private float moveDistance;
     private Vector3 moveDir;
 
-    public void SetTargetPos(Vector3 targetPos) {
+    public void SetDamageTarget(HealthComponent targetHealthComponent) {
+        healthComponent = targetHealthComponent;
+
+        var targetPos = targetHealthComponent.transform.position;
         var bornPos = transform.position;
         targetPos.y = bornPos.y;
 
@@ -32,5 +38,7 @@ public class BulletProjectile : MonoBehaviour {
         Destroy(gameObject);
         // 实例化击中特效
         Instantiate(bulletHitVFXPrefab, transform.position, Quaternion.identity);
+
+        healthComponent.Damage(damageAmount);
     }
 }
