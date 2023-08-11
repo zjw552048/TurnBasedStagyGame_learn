@@ -7,6 +7,9 @@ public class MoveAction : BaseAction {
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private int maxMoveGrid = 3;
 
+    public event Action OnMovingStartAction;
+    public event Action OnMovingStopAction;
+
 
     private Vector3 targetPosition;
 
@@ -31,6 +34,7 @@ public class MoveAction : BaseAction {
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
         } else {
             ActionComplete();
+            OnMovingStopAction?.Invoke();
         }
     }
 
@@ -39,9 +43,10 @@ public class MoveAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
-        ActionStart(actionCompletedCallback);
+        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         
-        this.actionCompletedCallback = actionCompletedCallback;
+        ActionStart(actionCompletedCallback);
+        OnMovingStartAction?.Invoke();
     }
 
     public override List<GridPosition> GetValidMoveActionGridPositions() {

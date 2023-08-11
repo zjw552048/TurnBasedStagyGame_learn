@@ -112,7 +112,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52055e957368f73458cfb24c1f9005b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spinSpeed: 360
+  maxShootGrid: 7
+  rotateSpeed: 10
 --- !u!1 &9146742371459690253
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f356336f70003f147881130581e8c517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveAction: {fileID: 2677735893400013775}
+  unit: {fileID: 2119144220213485177}
 --- !u!4 &4443784289806498778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4170833147357194, guid: 2f3e27eecb190e44a9af50723c394274,

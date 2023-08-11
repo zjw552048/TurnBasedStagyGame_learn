@@ -6,6 +6,8 @@ public class ShootAction : BaseAction {
     [SerializeField] private int maxShootGrid = 7;
     [SerializeField] private float rotateSpeed = 10f;
 
+    public event Action OnShootAction;
+
     private enum State {
         Aiming,
         Shooting,
@@ -18,8 +20,8 @@ public class ShootAction : BaseAction {
     private bool canShootBullet;
 
     private float actionTimer;
-    private const float AIMING_TIMER = 0.1f;
-    private const float SHOOTING_TIMER = 0.5f;
+    private const float AIMING_TIMER = 0.5f;
+    private const float SHOOTING_TIMER = 0.1f;
     private const float COOL_OFF_TIMER = 1f;
 
     private void Update() {
@@ -39,6 +41,7 @@ public class ShootAction : BaseAction {
                 if (canShootBullet) {
                     canShootBullet = false;
                     Shoot();
+                    OnShootAction?.Invoke();
                 }
 
                 break;
@@ -87,13 +90,13 @@ public class ShootAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
-        ActionStart(actionCompletedCallback);
-
         state = State.Aiming;
         actionTimer = AIMING_TIMER;
 
         shootTargetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
         canShootBullet = true;
+
+        ActionStart(actionCompletedCallback);
     }
 
     public override List<GridPosition> GetValidMoveActionGridPositions() {
