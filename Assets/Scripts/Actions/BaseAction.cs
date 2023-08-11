@@ -32,4 +32,14 @@ public abstract class BaseAction : MonoBehaviour {
     public virtual int NeedCostActionPoints() {
         return 1;
     }
+
+    protected void ActionStart(Action actionCompletedCallback) {
+        actionActive = true;
+        this.actionCompletedCallback = actionCompletedCallback;
+    }
+
+    protected void ActionComplete() {
+        actionActive = false;
+        actionCompletedCallback?.Invoke();
+    }
 }

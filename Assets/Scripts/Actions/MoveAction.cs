@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveAction : BaseAction {
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float rotateSpeed = 10f;
-    [SerializeField] private int maxMoveGrid = 1;
+    [SerializeField] private int maxMoveGrid = 3;
 
 
     private Vector3 targetPosition;
@@ -30,8 +30,7 @@ public class MoveAction : BaseAction {
 
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
         } else {
-            actionActive = false;
-            actionCompletedCallback?.Invoke();
+            ActionComplete();
         }
     }
 
@@ -40,8 +39,8 @@ public class MoveAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
-        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        actionActive = true;
+        ActionStart(actionCompletedCallback);
+        
         this.actionCompletedCallback = actionCompletedCallback;
     }
 
@@ -60,7 +59,8 @@ public class MoveAction : BaseAction {
                     continue;
                 }
 
-                if (LevelGrid.Instance.HasUnitAtGridPosition(testGridPosition)) {
+                var unitAtTestGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                if (unitAtTestGridPosition != null) {
                     continue;
                 }
 

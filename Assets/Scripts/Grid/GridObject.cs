@@ -21,8 +21,8 @@ public class GridObject {
         unitList.Remove(unit);
     }
 
-    public bool HasAnyUnit() {
-        return unitList.Count > 0;
+    public Unit GetUnit() {
+        return unitList.Count > 0 ? unitList[0] : null;
     }
 
     public override string ToString() {

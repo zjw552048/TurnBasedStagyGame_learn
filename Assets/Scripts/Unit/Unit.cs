@@ -45,6 +45,10 @@ public class Unit : MonoBehaviour {
     }
 
     #region 获取unit信息
+    
+    public Vector3 GetWorldPosition() {
+        return transform.position;
+    }
 
     public GridPosition GetGridPosition() {
         return gridPosition;
@@ -97,4 +101,8 @@ public class Unit : MonoBehaviour {
     }
 
     #endregion
+
+    public void Damaged() {
+        Debug.Log(transform + "Damaged!");
+    }
 }

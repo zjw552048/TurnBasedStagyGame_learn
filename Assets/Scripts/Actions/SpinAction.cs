@@ -19,8 +19,7 @@ public class SpinAction : BaseAction {
             rotateAngle = targetSpinAngle;
             targetSpinAngle = 0f;
 
-            actionActive = false;
-            actionCompletedCallback?.Invoke();
+            ActionComplete();
         }
 
         transform.eulerAngles += new Vector3(0, rotateAngle, 0);
@@ -31,9 +30,9 @@ public class SpinAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
-        actionActive = true;
+        ActionStart(actionCompletedCallback);
+        
         targetSpinAngle = 360f;
-        this.actionCompletedCallback = actionCompletedCallback;
     }
 
     public override List<GridPosition> GetValidMoveActionGridPositions() {
