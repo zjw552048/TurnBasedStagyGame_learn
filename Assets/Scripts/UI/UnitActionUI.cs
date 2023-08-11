@@ -18,6 +18,7 @@ public class UnitActionUI : MonoBehaviour {
         UnitActionManager.Instance.OnSelectedUnitAction += UnitActionManager_OnSelectedUnitAction;
         UnitActionManager.Instance.OnSelectedActionAction += UnitActionManager_OnSelectedActionAction;
         UnitActionManager.Instance.OnSelectedActionStartedAction += UnitActionManager_OnSelectedActionStartedAction;
+        Unit.OnAnyUnitActionPointsChangedAction += Unit_OnAnyUnitActionPointsChangedAction;
 
         CreateActionButtonUI();
         UpdateActionButtonSelectedVisual();
@@ -35,6 +36,10 @@ public class UnitActionUI : MonoBehaviour {
     }
 
     private void UnitActionManager_OnSelectedActionStartedAction() {
+        UpdateActionPointsText();
+    }
+
+    private void Unit_OnAnyUnitActionPointsChangedAction() {
         UpdateActionPointsText();
     }
 
