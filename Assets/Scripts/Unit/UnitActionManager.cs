@@ -8,6 +8,7 @@ public class UnitActionManager : MonoBehaviour {
     [SerializeField] private LayerMask unitsLayerMask;
 
     public event Action OnSelectedUnitAction;
+    public event Action OnSelectedActionAction;
 
     private Unit selectedUnit;
     private BaseAction selectedAction;
@@ -77,8 +78,9 @@ public class UnitActionManager : MonoBehaviour {
 
     private void SetSelectedUnit(Unit unit) {
         selectedUnit = unit;
-        SetSelectedAction(unit.GetDefaultAction());
         OnSelectedUnitAction?.Invoke();
+        
+        SetSelectedAction(unit.GetDefaultAction());
     }
 
     public Unit GetSelectedUnit() {
@@ -87,6 +89,7 @@ public class UnitActionManager : MonoBehaviour {
 
     public void SetSelectedAction(BaseAction baseAction) {
         selectedAction = baseAction;
+        OnSelectedActionAction?.Invoke();
     }
 
     public BaseAction GetSelectedAction() {
