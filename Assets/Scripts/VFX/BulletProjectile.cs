@@ -39,6 +39,6 @@ public class BulletProjectile : MonoBehaviour {
         // 实例化击中特效
         Instantiate(bulletHitVFXPrefab, transform.position, Quaternion.identity);
 
-        healthComponent.Damage(damageAmount);
+        healthComponent.Damage(damageAmount, moveDir);
     }
 }

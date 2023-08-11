@@ -34,7 +34,7 @@ public class Unit : MonoBehaviour {
         ResetActionPoints();
     }
 
-    private void HealthComponent_OnHealthZeroAction() {
+    private void HealthComponent_OnHealthZeroAction(Vector3 damageForce) {
         LevelGrid.Instance.RemoveUnitAtGridPosition(this, gridPosition);
         Destroy(gameObject);
     }

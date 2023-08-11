@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 300
+  damageAmount: 40
   trailRenderer: {fileID: 2483710273464360785}
   bulletHitVFXPrefab: {fileID: 3972168624491490570, guid: e743f99ddb32a9f4e9a8cc7645cc0902,
     type: 3}

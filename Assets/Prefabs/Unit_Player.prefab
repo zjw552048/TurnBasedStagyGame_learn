@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1480485204487875728}
   - component: {fileID: 3082187693254633948}
   - component: {fileID: 4251940047289902768}
+  - component: {fileID: 5843789399345968342}
   m_Layer: 7
   m_Name: Unit_Player
   m_TagString: Untagged
@@ -131,6 +132,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthValue: 100
+--- !u!114 &5843789399345968342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553483243702146281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13069317990a76441878d2f494c785e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitRagDollPrefab: {fileID: 7460738380753316086, guid: 71fc5e1f198d11847a59665bc98d456c,
+    type: 3}
+  boneRoot: {fileID: 4446191659214899338}
 --- !u!1 &5508851038980340427
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +488,12 @@ MonoBehaviour:
 --- !u!4 &4443784289806498778 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4170833147357194, guid: 2f3e27eecb190e44a9af50723c394274,
+    type: 3}
+  m_PrefabInstance: {fileID: 4442149149517468624}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4446191659214899338 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4966341056781146, guid: 2f3e27eecb190e44a9af50723c394274,
     type: 3}
   m_PrefabInstance: {fileID: 4442149149517468624}
   m_PrefabAsset: {fileID: 0}
