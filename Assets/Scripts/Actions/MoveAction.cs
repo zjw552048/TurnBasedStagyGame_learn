@@ -70,7 +70,6 @@ public class MoveAction : BaseAction {
                     continue;
                 }
 
-                // Debug.Log($"x:{x}, z:{z}, maxMoveGrid:{maxMoveGrid}, " + new GridPosition(x, z));
                 validGridPositionList.Add(testGridPosition);
             }
         }

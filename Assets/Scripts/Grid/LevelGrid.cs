@@ -6,20 +6,19 @@ public class LevelGrid : MonoBehaviour {
 
     [SerializeField] private Transform debugGridPrefab;
 
-    private GridObjectManager gridObjectManager;
+    private GridObjectManager<GridObject> gridObjectManager;
 
     private void Awake() {
-        gridObjectManager = new GridObjectManager(10, 10, 2);
+        gridObjectManager = new GridObjectManager<GridObject>(
+            10,
+            10,
+            2,
+            (GridPosition gridPosition) => { return new GridObject(gridPosition); }
+        );
         gridObjectManager.CreateDebugGrids(transform, debugGridPrefab);
 
         Instance = this;
     }
-
-    // private void Update() {
-        // if (Input.GetMouseButtonDown(0)) {
-        //     Debug.Log($"LevelGrid click GridPosition: {gridObjectManager.GetGridPosition(MouseWorld.GetPosition())}");
-        // }
-    // }
 
     #region Grid基本信息
 

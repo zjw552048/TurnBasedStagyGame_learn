@@ -1,22 +1,23 @@
+using System;
 using UnityEngine;
 
-public class GridObjectManager {
+public class GridObjectManager<TGridObject> {
     private readonly int width;
     private readonly int height;
     private readonly float cellSize;
-    private readonly GridObject[,] gridObjectArray;
+    private readonly TGridObject[,] gridObjectArray;
 
-    public GridObjectManager(int width, int height, float cellSize) {
+    public GridObjectManager(int width, int height, float cellSize, Func<GridPosition, TGridObject> createTGridObjectFuc) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
 
-        gridObjectArray = new GridObject[width, height];
+        gridObjectArray = new TGridObject[width, height];
 
         for (var x = 0; x < width; x++) {
             for (var z = 0; z < height; z++) {
                 var gridPosition = new GridPosition(x, z);
-                gridObjectArray[x, z] = new GridObject(gridPosition);
+                gridObjectArray[x, z] = createTGridObjectFuc(gridPosition);
             }
         }
     }
@@ -58,7 +59,7 @@ public class GridObjectManager {
 
     #region GridObject
 
-    public GridObject GetGridObject(GridPosition gridPosition) {
+    public TGridObject GetGridObject(GridPosition gridPosition) {
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }
 
@@ -74,7 +75,7 @@ public class GridObjectManager {
                 debugGridTransform.position = GetWorldPosition(gridPosition);
 
                 var debugGrid = debugGridTransform.GetComponent<DebugGridObject>();
-                debugGrid.SetGridObject(gridObject);
+                debugGrid.SetGridObject(gridObject as GridObject);
             }
         }
     }
