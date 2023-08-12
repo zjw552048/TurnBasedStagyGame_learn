@@ -4,6 +4,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
     public static event Action OnAnyUnitActionPointsChangedAction;
     public static event Action OnAnyUnitGridPositionChangedAction;
+    public static event Action<Unit> OnAnyUnitSpawnAction;
+    public static event Action<Unit> OnAnyUnitDestroyAction;
 
     [SerializeField] private bool isPlayer;
 
@@ -29,6 +31,8 @@ public class Unit : MonoBehaviour {
 
         TurnManager.Instance.OnTurnChangedAction += TurnManager_OnTurnChangedAction;
         healthComponent.OnHealthZeroAction += HealthComponent_OnHealthZeroAction;
+        
+        OnAnyUnitSpawnAction?.Invoke(this);
     }
 
     private void TurnManager_OnTurnChangedAction() {
@@ -36,6 +40,8 @@ public class Unit : MonoBehaviour {
     }
 
     private void HealthComponent_OnHealthZeroAction(Vector3 damageForce) {
+        OnAnyUnitDestroyAction?.Invoke(this);
+        
         LevelGrid.Instance.RemoveUnitAtGridPosition(this, gridPosition);
         Destroy(gameObject);
     }
