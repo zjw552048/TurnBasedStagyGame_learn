@@ -1,13 +1,13 @@
 using System;
 using UnityEngine;
 
-public class GridObjectManager<TGridObject> {
+public class GridSystem<TGridObject> {
     private readonly int width;
     private readonly int height;
     private readonly float cellSize;
     private readonly TGridObject[,] gridObjectArray;
 
-    public GridObjectManager(int width, int height, float cellSize, Func<GridPosition, TGridObject> createTGridObjectFuc) {
+    public GridSystem(int width, int height, float cellSize, Func<GridPosition, TGridObject> createTGridObjectFuc) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
@@ -75,7 +75,7 @@ public class GridObjectManager<TGridObject> {
                 debugGridTransform.position = GetWorldPosition(gridPosition);
 
                 var debugGrid = debugGridTransform.GetComponent<DebugGridObject>();
-                debugGrid.SetGridObject(gridObject as GridObject);
+                debugGrid.SetGridObject(gridObject);
             }
         }
     }
