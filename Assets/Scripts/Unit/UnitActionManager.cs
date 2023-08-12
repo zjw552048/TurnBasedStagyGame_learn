@@ -80,7 +80,7 @@ public class UnitActionManager : MonoBehaviour {
         var worldPos = MouseWorld.GetPosition();
         var gridPos = LevelGrid.Instance.GetGridPosition(worldPos);
 
-        if (!selectedAction.IsValidMoveActionGridPosition(gridPos)) {
+        if (!selectedAction.IsValidActionGridPosition(gridPos)) {
             return;
         }
 

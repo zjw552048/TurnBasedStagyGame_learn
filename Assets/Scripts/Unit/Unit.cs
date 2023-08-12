@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour {
     public static event Action OnAnyUnitActionPointsChangedAction;
+    public static event Action OnAnyUnitGridPositionChangedAction;
 
     [SerializeField] private bool isPlayer;
 
@@ -51,6 +52,8 @@ public class Unit : MonoBehaviour {
 
         LevelGrid.Instance.MoveUnitGridPosition(this, gridPosition, newGridPosition);
         gridPosition = newGridPosition;
+        
+        OnAnyUnitGridPositionChangedAction?.Invoke();
     }
 
     #region 获取unit信息

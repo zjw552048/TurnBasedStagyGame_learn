@@ -49,7 +49,7 @@ public class MoveAction : BaseAction {
         OnMovingStartAction?.Invoke();
     }
 
-    public override List<GridPosition> GetValidMoveActionGridPositions() {
+    public override List<GridPosition> GetValidActionGridPositions() {
         var unitGridPosition = unit.GetGridPosition();
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxMoveGrid; x <= maxMoveGrid; x++) {

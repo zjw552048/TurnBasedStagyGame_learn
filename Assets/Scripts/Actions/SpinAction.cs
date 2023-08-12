@@ -35,7 +35,7 @@ public class SpinAction : BaseAction {
         ActionStart(actionCompletedCallback);
     }
 
-    public override List<GridPosition> GetValidMoveActionGridPositions() {
+    public override List<GridPosition> GetValidActionGridPositions() {
         return new List<GridPosition> {
             unit.GetGridPosition()
         };

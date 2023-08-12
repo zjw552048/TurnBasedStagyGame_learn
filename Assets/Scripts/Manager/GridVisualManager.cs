@@ -13,11 +13,18 @@ public class GridVisualManager : MonoBehaviour {
     }
 
     private void Start() {
+        UnitActionManager.Instance.OnSelectedActionAction += UnitActionManager_OnSelectedActionAction;
+        Unit.OnAnyUnitGridPositionChangedAction += Unit_OnAnyUnitGridPositionChangedAction;
+
         InitAllGridVisual();
         HideAllGridVisual();
     }
 
-    private void Update() {
+    private void UnitActionManager_OnSelectedActionAction() {
+        UpdateGridVisual();
+    }
+
+    private void Unit_OnAnyUnitGridPositionChangedAction() {
         UpdateGridVisual();
     }
 
@@ -58,7 +65,7 @@ public class GridVisualManager : MonoBehaviour {
 
     private void UpdateGridVisual() {
         HideAllGridVisual();
-        // FIXME: 逻辑实现待优化，每帧都在调用
+
         var selectAction = UnitActionManager.Instance.GetSelectedAction();
         if (selectAction == null) {
             return;

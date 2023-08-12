@@ -106,7 +106,7 @@ public class ShootAction : BaseAction {
         CameraManager.Instance.ShowActionCamera(unit, shootTargetUnit);
     }
 
-    public override List<GridPosition> GetValidMoveActionGridPositions() {
+    public override List<GridPosition> GetValidActionGridPositions() {
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxShootGrid; x <= maxShootGrid; x++) {
             for (var z = -maxShootGrid; z <= maxShootGrid; z++) {

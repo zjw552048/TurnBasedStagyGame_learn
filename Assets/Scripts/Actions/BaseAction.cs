@@ -22,12 +22,12 @@ public abstract class BaseAction : MonoBehaviour {
 
     public abstract void TakeAction(GridPosition gridPosition, Action actionCompletedCallback);
 
-    public bool IsValidMoveActionGridPosition(GridPosition gridPosition) {
-        var validGridPositionList = GetValidMoveActionGridPositions();
+    public bool IsValidActionGridPosition(GridPosition gridPosition) {
+        var validGridPositionList = GetValidActionGridPositions();
         return validGridPositionList.Contains(gridPosition);
     }
 
-    public abstract List<GridPosition> GetValidMoveActionGridPositions();
+    public abstract List<GridPosition> GetValidActionGridPositions();
 
     public virtual int NeedCostActionPoints() {
         return 1;
