@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enum;
 using UnityEngine;
 
 public class SpinAction : BaseAction {
@@ -31,7 +32,7 @@ public class SpinAction : BaseAction {
 
     public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
         targetSpinAngle = 360f;
-        
+
         ActionStart(actionCompletedCallback);
     }
 
@@ -43,5 +44,21 @@ public class SpinAction : BaseAction {
 
     public override int NeedCostActionPoints() {
         return 2;
+    }
+
+    public override List<EnemyAIAction> GetEnemyAIAction() {
+        var enemyAiActionList = new List<EnemyAIAction>();
+        
+        const int basePriority = (int) EnemyAIActionBasePriority.Spin;
+        
+        var validActionGridPositions = GetValidActionGridPositions();
+        foreach (var validGridPosition in validActionGridPositions) {
+            enemyAiActionList.Add(new EnemyAIAction {
+                gridPosition = validGridPosition,
+                actionPriority = basePriority
+            });
+        }
+
+        return enemyAiActionList;
     }
 }

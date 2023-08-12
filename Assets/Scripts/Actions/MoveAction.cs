@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enum;
 using UnityEngine;
 
 public class MoveAction : BaseAction {
@@ -44,7 +45,7 @@ public class MoveAction : BaseAction {
 
     public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
         targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        
+
         ActionStart(actionCompletedCallback);
         OnMovingStartAction?.Invoke();
     }
@@ -75,5 +76,27 @@ public class MoveAction : BaseAction {
         }
 
         return validGridPositionList;
+    }
+
+    public override List<EnemyAIAction> GetEnemyAIAction() {
+        var shootAction = unit.GetComponent<ShootAction>();
+
+        var enemyAiActionList = new List<EnemyAIAction>();
+        var validActionGridPositions = GetValidActionGridPositions();
+
+        const int basePriority = (int) EnemyAIActionBasePriority.Move;
+        foreach (var validGridPosition in validActionGridPositions) {
+            var moveGridVector = validGridPosition - unit.GetGridPosition();
+            var moveGridDistance = Mathf.Abs(moveGridVector.x) + Mathf.Abs(moveGridVector.z);
+
+            var canShootGridPositionList = shootAction.GetValidActionGridPositions(validGridPosition);
+            enemyAiActionList.Add(new EnemyAIAction {
+                gridPosition = validGridPosition,
+                // 基础行为优先级 + 优先选择可攻击目标数量较多 + 需要移动距离最短的grid
+                actionPriority = basePriority + canShootGridPositionList.Count * 100 - moveGridDistance
+            });
+        }
+
+        return enemyAiActionList;
     }
 }

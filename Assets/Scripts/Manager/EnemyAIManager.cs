@@ -76,18 +76,33 @@ public class EnemyAIManager : MonoBehaviour {
     }
 
     private bool TryTakeAction(Unit selectedUnit, Action actionCompletedCallback) {
-        var gridPos = selectedUnit.GetGridPosition();
-        var selectedAction = selectedUnit.GetComponent<SpinAction>();
+        // 找到Unit优先级最高的Action
+        BaseAction bestAction = null;
+        EnemyAIAction bestEnemyAIAction = default;
+        foreach (var baseAction in selectedUnit.GetBaseActions()) {
+            var testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+            if (bestAction == null ||
+                bestEnemyAIAction.actionPriority < testEnemyAIAction.actionPriority) {
+                bestAction = baseAction;
+                bestEnemyAIAction = testEnemyAIAction;
+            }
+        }
 
-        if (!selectedAction.IsValidActionGridPosition(gridPos)) {
+        if (bestAction == null) {
             return false;
         }
 
-        if (!selectedUnit.TrySpendActionPointsToTakeAction(selectedAction)) {
+        var gridPos = bestEnemyAIAction.gridPosition;
+
+        if (!bestAction.IsValidActionGridPosition(gridPos)) {
             return false;
         }
 
-        selectedAction.TakeAction(gridPos, actionCompletedCallback);
+        if (!selectedUnit.TrySpendActionPointsToTakeAction(bestAction)) {
+            return false;
+        }
+
+        bestAction.TakeAction(gridPos, actionCompletedCallback);
         return true;
     }
 }

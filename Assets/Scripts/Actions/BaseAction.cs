@@ -42,4 +42,16 @@ public abstract class BaseAction : MonoBehaviour {
         actionActive = false;
         actionCompletedCallback?.Invoke();
     }
+
+    public abstract List<EnemyAIAction> GetEnemyAIAction();
+
+    public EnemyAIAction GetBestEnemyAIAction() {
+        var validActionList = GetEnemyAIAction();
+        if (validActionList.Count <= 0) {
+            return default;
+        }
+
+        validActionList.Sort((a, b) => b.actionPriority - a.actionPriority);
+        return validActionList[0];
+    }
 }

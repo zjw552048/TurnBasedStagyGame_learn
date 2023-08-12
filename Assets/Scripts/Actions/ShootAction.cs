@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enum;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -107,15 +108,20 @@ public class ShootAction : BaseAction {
     }
 
     public override List<GridPosition> GetValidActionGridPositions() {
+        var unitGridPosition = unit.GetGridPosition();
+        return GetValidActionGridPositions(unitGridPosition);
+    }
+
+    public List<GridPosition> GetValidActionGridPositions(GridPosition gridPosition) {
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxShootGrid; x <= maxShootGrid; x++) {
             for (var z = -maxShootGrid; z <= maxShootGrid; z++) {
-                var testGridPosition = new GridPosition(x, z);
+                var testGridPosition = gridPosition + new GridPosition(x, z);
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) {
                     continue;
                 }
 
-                if (x + z > maxShootGrid) {
+                if (Mathf.Abs(x) + Mathf.Abs(z) > maxShootGrid) {
                     continue;
                 }
 
@@ -139,12 +145,13 @@ public class ShootAction : BaseAction {
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxShootGrid; x <= maxShootGrid; x++) {
             for (var z = -maxShootGrid; z <= maxShootGrid; z++) {
-                var testGridPosition = new GridPosition(x, z);
+                var unitGridPosition = unit.GetGridPosition();
+                var testGridPosition = unitGridPosition + new GridPosition(x, z);
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) {
                     continue;
                 }
 
-                if (x + z > maxShootGrid) {
+                if (Mathf.Abs(x) + Mathf.Abs(z) > maxShootGrid) {
                     continue;
                 }
 
@@ -158,5 +165,23 @@ public class ShootAction : BaseAction {
         }
 
         return validGridPositionList;
+    }
+
+    public override List<EnemyAIAction> GetEnemyAIAction() {
+        var enemyAiActionList = new List<EnemyAIAction>();
+        var validActionGridPositions = GetValidActionGridPositions();
+
+        const int basePriority = (int) EnemyAIActionBasePriority.Shoot;
+        foreach (var validGridPosition in validActionGridPositions) {
+            var unitAtGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(validGridPosition);
+            var healthNormalized = unitAtGridPosition.GetHealthComponent().GetHealthNormalized();
+            enemyAiActionList.Add(new EnemyAIAction {
+                gridPosition = validGridPosition,
+                // 基础行为优先级 + 优先选择剩余血量较低目标
+                actionPriority = basePriority + (int) ((1 - healthNormalized) * 100)
+            });
+        }
+
+        return enemyAiActionList;
     }
 }
