@@ -98,6 +98,10 @@ public class GridVisualManager : MonoBehaviour {
                 break;
 
             case ShootAction shootAction:
+                // 显示ShootRange范围内的GridVisual
+                var shootRangeGridPositions = shootAction.GetValidActionRangeGridPositions();
+                ShowGridVisuals(shootRangeGridPositions, GetGridVisualMaterialByColor(GridVisualColorType.RedSoft));
+
                 gridVisualColorType = GridVisualColorType.Red;
                 break;
         }

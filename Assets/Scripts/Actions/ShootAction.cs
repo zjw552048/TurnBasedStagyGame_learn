@@ -134,4 +134,29 @@ public class ShootAction : BaseAction {
 
         return validGridPositionList;
     }
+
+    public List<GridPosition> GetValidActionRangeGridPositions() {
+        var validGridPositionList = new List<GridPosition>();
+        for (var x = -maxShootGrid; x <= maxShootGrid; x++) {
+            for (var z = -maxShootGrid; z <= maxShootGrid; z++) {
+                var testGridPosition = new GridPosition(x, z);
+                if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) {
+                    continue;
+                }
+
+                if (x + z > maxShootGrid) {
+                    continue;
+                }
+
+                var unitAtTestGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                if (unitAtTestGridPosition != null) {
+                    continue;
+                }
+
+                validGridPositionList.Add(testGridPosition);
+            }
+        }
+
+        return validGridPositionList;
+    }
 }
