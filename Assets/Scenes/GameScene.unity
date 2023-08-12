@@ -355,7 +355,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.35826376, y: 0.000000022718249, z: -0.00000000871781, w: 0.93362045}
+  m_LocalRotation: {x: 0.35826376, y: -0.000000022718249, z: 0.000000008717809, w: 0.93362045}
   m_LocalPosition: {x: 6, y: 9, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -807,7 +807,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 442493316}
-  m_LocalRotation: {x: 0.35826376, y: 0.000000022718249, z: -0.00000000871781, w: 0.93362045}
+  m_LocalRotation: {x: 0.35826376, y: -0.000000022718249, z: 0.000000008717809, w: 0.93362045}
   m_LocalPosition: {x: 6, y: 9, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2395,6 +2395,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridVisualPrefab: {fileID: 3240001156007197118, guid: b71f72556db8baa4190922b622b50d86,
     type: 3}
+  gridVisualColorMatchMaterials:
+  - gridVisualColorType: 0
+    gridVisualMaterial: {fileID: 2100000, guid: 29a92d884231c7946be6d4e8ec577b71,
+      type: 2}
+  - gridVisualColorType: 1
+    gridVisualMaterial: {fileID: 2100000, guid: 6347064d612101846a8ea0a56c523926,
+      type: 2}
+  - gridVisualColorType: 2
+    gridVisualMaterial: {fileID: 2100000, guid: ff8c9751904f5ee45b308d7ed64e6e59,
+      type: 2}
+  - gridVisualColorType: 3
+    gridVisualMaterial: {fileID: 2100000, guid: a3f65c9360ee808428dff0b487925fd4,
+      type: 2}
+  - gridVisualColorType: 4
+    gridVisualMaterial: {fileID: 2100000, guid: 3f477f71a2a01b947851564a1a4a8ae8,
+      type: 2}
 --- !u!4 &1462460540
 Transform:
   m_ObjectHideFlags: 0

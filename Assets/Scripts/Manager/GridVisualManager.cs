@@ -1,10 +1,26 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridVisualManager : MonoBehaviour {
     public static GridVisualManager Instance { get; private set; }
 
+    private enum GridVisualColorType {
+        While,
+        Red,
+        RedSoft,
+        Yellow,
+        Blue,
+    }
+
+    [Serializable]
+    private struct GridVisualColorMatchMaterial {
+        public GridVisualColorType gridVisualColorType;
+        public Material gridVisualMaterial;
+    }
+
     [SerializeField] private Transform gridVisualPrefab;
+    [SerializeField] private List<GridVisualColorMatchMaterial> gridVisualColorMatchMaterials;
 
     private GridVisual[,] gridVisualArray;
 
@@ -56,10 +72,10 @@ public class GridVisualManager : MonoBehaviour {
         }
     }
 
-    private void ShowGridVisuals(List<GridPosition> gridPositionList) {
+    private void ShowGridVisuals(List<GridPosition> gridPositionList, Material material) {
         foreach (var gridPosition in gridPositionList) {
             var gridVisual = gridVisualArray[gridPosition.x, gridPosition.z];
-            gridVisual.Show();
+            gridVisual.Show(material);
         }
     }
 
@@ -71,7 +87,34 @@ public class GridVisualManager : MonoBehaviour {
             return;
         }
 
-        var validMoveActionGridPositions = selectAction.GetValidMoveActionGridPositions();
-        ShowGridVisuals(validMoveActionGridPositions);
+        var gridVisualColorType = GridVisualColorType.While;
+        switch (selectAction) {
+            case MoveAction moveAction:
+                gridVisualColorType = GridVisualColorType.While;
+                break;
+
+            case SpinAction spinAction:
+                gridVisualColorType = GridVisualColorType.Blue;
+                break;
+
+            case ShootAction shootAction:
+                gridVisualColorType = GridVisualColorType.Red;
+                break;
+        }
+
+        var material = GetGridVisualMaterialByColor(gridVisualColorType);
+
+        var validMoveActionGridPositions = selectAction.GetValidActionGridPositions();
+        ShowGridVisuals(validMoveActionGridPositions, material);
+    }
+
+    private Material GetGridVisualMaterialByColor(GridVisualColorType gridVisualColorType) {
+        foreach (var gridVisualColorMatchMaterial in gridVisualColorMatchMaterials) {
+            if (gridVisualColorMatchMaterial.gridVisualColorType == gridVisualColorType) {
+                return gridVisualColorMatchMaterial.gridVisualMaterial;
+            }
+        }
+
+        return null;
     }
 }
