@@ -79,7 +79,7 @@ public class MoveAction : BaseAction {
     }
 
     public override List<EnemyAIAction> GetEnemyAIAction() {
-        var shootAction = unit.GetComponent<ShootAction>();
+        var shootAction = unit.GetAction<ShootAction>();
 
         var enemyAiActionList = new List<EnemyAIAction>();
         var validActionGridPositions = GetValidActionGridPositions();

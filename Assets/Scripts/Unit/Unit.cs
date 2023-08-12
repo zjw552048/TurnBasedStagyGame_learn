@@ -80,6 +80,16 @@ public class Unit : MonoBehaviour {
         return baseActionArray;
     }
 
+    public T GetAction<T>() where T : BaseAction {
+        foreach (var baseAction in baseActionArray) {
+            if (baseAction is T) {
+                return (T) baseAction;
+            }
+        }
+
+        return null;
+    }
+
     public bool IsPlayer() {
         return isPlayer;
     }
