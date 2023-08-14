@@ -31,7 +31,9 @@ public class PathfindingManager : MonoBehaviour {
             height,
             cellSize,
             gridPosition => new PathNode(gridPosition));
-        gridSystem.CreateDebugGrids(transform, debugGridPrefab);
+        
+        // 注释debugGrid
+        // gridSystem.CreateDebugGrids(transform, debugGridPrefab);
 
         // 利用射线检测整个grid，判断是否存在obstacle导致无法行走
         for (var x = 0; x < width; x++) {
@@ -52,6 +54,11 @@ public class PathfindingManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.T)) {
             var gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
             var pathGridPositionList = FindPath(new GridPosition(0, 0), gridPosition);
+            if (pathGridPositionList == null) {
+                Debug.Log("Path not found!");
+                return;
+            }
+
             for (var index = 0; index < pathGridPositionList.Count - 1; index++) {
                 var pathGridPosition = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[index]);
                 var nextPathGridPosition = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[index + 1]);
