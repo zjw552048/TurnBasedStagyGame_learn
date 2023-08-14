@@ -5,18 +5,25 @@ public class LevelGrid : MonoBehaviour {
     public static LevelGrid Instance { get; private set; }
 
     [SerializeField] private Transform debugGridPrefab;
+    [SerializeField] private int width;
+    [SerializeField] private int height;
+    [SerializeField] private float cellSize;
 
     private GridSystem<GridObject> gridSystem;
 
     private void Awake() {
         gridSystem = new GridSystem<GridObject>(
-            10,
-            10,
-            2,
+            width,
+            height,
+            cellSize,
             gridPosition => new GridObject(gridPosition));
         // gridSystem.CreateDebugGrids(transform, debugGridPrefab);
 
         Instance = this;
+    }
+
+    private void Start() {
+        PathfindingManager.Instance.SetUp(width, height, cellSize);
     }
 
     #region Grid基本信息

@@ -4,6 +4,7 @@ public class PathNode {
     private int hCost;
     private int fCost;
     private PathNode cameFromPathNode;
+    private bool walkable = true;
 
     public PathNode(GridPosition gridPosition) {
         this.gridPosition = gridPosition;
@@ -37,7 +38,7 @@ public class PathNode {
         return fCost;
     }
 
-    public void CalcuteFCost() {
+    public void CalculateFCost() {
         fCost = gCost + hCost;
     }
 
@@ -47,5 +48,13 @@ public class PathNode {
 
     public void SetCameFromPathNode(PathNode pathNode) {
         cameFromPathNode = pathNode;
+    }
+
+    public bool IsWalkable() {
+        return walkable;
+    }
+
+    public void SetWalkable(bool value) {
+        walkable = value;
     }
 }

@@ -6,20 +6,46 @@ public class PathfindingManager : MonoBehaviour {
 
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
+    private const int RAY_CAST_OFFSET_Y = 5;
 
     [SerializeField] private Transform debugGridPrefab;
+    [SerializeField] private LayerMask obstacleLayerMask;
 
     private GridSystem<PathNode> gridSystem;
 
+    private int width;
+    private int height;
+    private float cellSize;
+
     private void Awake() {
+        Instance = this;
+    }
+
+    public void SetUp(int width, int height, float cellSize) {
+        this.width = width;
+        this.height = height;
+        this.cellSize = cellSize;
+
         gridSystem = new GridSystem<PathNode>(
-            10,
-            10,
-            2,
+            width,
+            height,
+            cellSize,
             gridPosition => new PathNode(gridPosition));
         gridSystem.CreateDebugGrids(transform, debugGridPrefab);
 
-        Instance = this;
+        // 利用射线检测整个grid，判断是否存在obstacle导致无法行走
+        for (var x = 0; x < width; x++) {
+            for (var z = 0; z < height; z++) {
+                var worldPosition = LevelGrid.Instance.GetWorldPosition(new GridPosition(x, z));
+                if (Physics.Raycast(
+                        worldPosition + Vector3.down * RAY_CAST_OFFSET_Y,
+                        Vector3.up,
+                        RAY_CAST_OFFSET_Y * 2,
+                        obstacleLayerMask)) {
+                    GetPathNode(x, z).SetWalkable(false);
+                }
+            }
+        }
     }
 
     private void Update() {
@@ -45,7 +71,7 @@ public class PathfindingManager : MonoBehaviour {
 
         startNode.SetGCost(0);
         startNode.SetHCost(CalculateDistance(startPos, endPos));
-        startNode.CalcuteFCost();
+        startNode.CalculateFCost();
 
         openList.Add(startNode);
 
@@ -66,6 +92,11 @@ public class PathfindingManager : MonoBehaviour {
                     continue;
                 }
 
+                if (!neighbourNode.IsWalkable()) {
+                    closedList.Add(neighbourNode);
+                    continue;
+                }
+
                 var neighbourGridPos = neighbourNode.getGridPosition();
 
                 var newGCost = currentNode.GetGCost() + CalculateDistance(currentNodeGridPos, neighbourGridPos);
@@ -74,7 +105,7 @@ public class PathfindingManager : MonoBehaviour {
                     neighbourNode.SetCameFromPathNode(currentNode);
                     neighbourNode.SetGCost(newGCost);
                     neighbourNode.SetHCost(CalculateDistance(neighbourGridPos, endPos));
-                    neighbourNode.CalcuteFCost();
+                    neighbourNode.CalculateFCost();
 
                     if (!openList.Contains(neighbourNode)) {
                         openList.Add(neighbourNode);
@@ -94,7 +125,7 @@ public class PathfindingManager : MonoBehaviour {
                 var node = gridSystem.GetGridObject(new GridPosition(x, z));
                 node.SetGCost(int.MaxValue);
                 node.SetHCost(0);
-                node.CalcuteFCost();
+                node.CalculateFCost();
                 node.SetCameFromPathNode(null);
             }
         }
