@@ -30,7 +30,7 @@ public class SpinAction : BaseAction {
         return "Spin";
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
+    public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
         targetSpinAngle = 360f;
 
         ActionStart(actionCompletedCallback);

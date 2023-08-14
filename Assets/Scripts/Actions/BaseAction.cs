@@ -20,7 +20,7 @@ public abstract class BaseAction : MonoBehaviour {
 
     public abstract string GetActionName();
 
-    public abstract void TakeAction(GridPosition gridPosition, Action actionCompletedCallback);
+    public abstract void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback);
 
     public bool IsValidActionGridPosition(GridPosition gridPosition) {
         var validGridPositionList = GetValidActionGridPositions();

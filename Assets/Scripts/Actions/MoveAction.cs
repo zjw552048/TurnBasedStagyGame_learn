@@ -12,12 +12,8 @@ public class MoveAction : BaseAction {
     public event Action OnMovingStopAction;
 
 
-    private Vector3 targetPosition;
-
-    protected override void Awake() {
-        base.Awake();
-        targetPosition = selfTransform.position;
-    }
+    private List<Vector3> pathPositionList;
+    private int currentPositionIndex;
 
     private void Update() {
         HandleMovement();
@@ -28,12 +24,18 @@ public class MoveAction : BaseAction {
             return;
         }
 
+        var targetPosition = pathPositionList[currentPositionIndex];
         if (Vector3.Distance(targetPosition, selfTransform.position) > 0.1f) {
             var moveDir = (targetPosition - selfTransform.position).normalized;
             selfTransform.position += moveDir * Time.deltaTime * moveSpeed;
 
             selfTransform.forward = Vector3.Slerp(selfTransform.forward, moveDir, Time.deltaTime * rotateSpeed);
         } else {
+            currentPositionIndex++;
+            if (currentPositionIndex < pathPositionList.Count) {
+                return;
+            }
+
             ActionComplete();
             OnMovingStopAction?.Invoke();
         }
@@ -43,8 +45,14 @@ public class MoveAction : BaseAction {
         return "Move";
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
-        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+    public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
+        var gridPositionList = PathfindingManager.Instance.FindPath(unit.GetGridPosition(), targetGridPosition);
+        pathPositionList = new List<Vector3>();
+        foreach (var gridPosition in gridPositionList) {
+            pathPositionList.Add(LevelGrid.Instance.GetWorldPosition(gridPosition));
+        }
+
+        currentPositionIndex = 0;
 
         ActionStart(actionCompletedCallback);
         OnMovingStartAction?.Invoke();

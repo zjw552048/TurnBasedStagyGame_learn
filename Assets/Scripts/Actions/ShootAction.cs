@@ -96,11 +96,11 @@ public class ShootAction : BaseAction {
         return "Shoot";
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action actionCompletedCallback) {
+    public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
         state = State.Aiming;
         actionTimer = AIMING_TIMER;
 
-        shootTargetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        shootTargetUnit = LevelGrid.Instance.GetUnitAtGridPosition(targetGridPosition);
         canShootBullet = true;
 
         ActionStart(actionCompletedCallback);

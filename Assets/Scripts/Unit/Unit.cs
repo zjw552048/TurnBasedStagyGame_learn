@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour {
     private BaseAction[] baseActionArray;
 
     private int actionPoints;
-    private const int MAX_ACTION_POINTS = 2;
+    private const int MAX_ACTION_POINTS = 9;
 
     private HealthComponent healthComponent;
 
