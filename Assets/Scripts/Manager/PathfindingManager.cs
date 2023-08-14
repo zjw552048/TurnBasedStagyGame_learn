@@ -225,4 +225,8 @@ public class PathfindingManager : MonoBehaviour {
 
         return neighbourPathNodeList;
     }
+
+    public bool IsWalkable(GridPosition gridPosition) {
+        return GetPathNode(gridPosition.x, gridPosition.z).IsWalkable();
+    }
 }
