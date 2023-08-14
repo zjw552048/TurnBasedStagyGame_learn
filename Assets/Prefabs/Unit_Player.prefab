@@ -555,6 +555,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxShootGrid: 7
   rotateSpeed: 10
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   gunFirePoint: {fileID: 8346548831836275387}
   bulletProjectilePrefab: {fileID: 2203057050570821479, guid: 6208172e5887d924db0717260004f636,
     type: 3}

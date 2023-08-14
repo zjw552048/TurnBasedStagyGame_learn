@@ -8,13 +8,16 @@ public class Unit : MonoBehaviour {
     public static event Action<Unit> OnAnyUnitDestroyAction;
 
     [SerializeField] private bool isPlayer;
+    
+    public const float HEIGHT_OFFSET = 1.7f;
+    public const float SHOULDER_OFFSET = 0.5f;
 
     private GridPosition gridPosition;
 
     private BaseAction[] baseActionArray;
 
     private int actionPoints;
-    private const int MAX_ACTION_POINTS = 9;
+    private const int MAX_ACTION_POINTS = 2;
 
     private HealthComponent healthComponent;
 

@@ -19,8 +19,8 @@ public class CameraManager : MonoBehaviour {
         var unitPos = unit.GetWorldPosition();
         var shootTargetUnitPos = shootTargetUnit.GetWorldPosition();
         var shootDir = (shootTargetUnitPos - unitPos).normalized;
-        var heightOffset = 1.7f;
-        var shoulderOffset = 0.5f;
+        var heightOffset = Unit.HEIGHT_OFFSET;
+        var shoulderOffset = Unit.SHOULDER_OFFSET;
         var backOffset = 1f;
         /*
          * 1. unitPos, 角色位置，y为0

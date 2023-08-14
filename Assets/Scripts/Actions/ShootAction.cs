@@ -7,6 +7,7 @@ using UnityEngine;
 public class ShootAction : BaseAction {
     [SerializeField] private int maxShootGrid = 7;
     [SerializeField] private float rotateSpeed = 10f;
+    [SerializeField] private LayerMask obstacleLayerMask;
     [SerializeField] private Transform gunFirePoint;
     [SerializeField] private Transform bulletProjectilePrefab;
 
@@ -112,11 +113,11 @@ public class ShootAction : BaseAction {
         return GetValidActionGridPositions(unitGridPosition);
     }
 
-    public List<GridPosition> GetValidActionGridPositions(GridPosition gridPosition) {
+    public List<GridPosition> GetValidActionGridPositions(GridPosition baseGridPosition) {
         var validGridPositionList = new List<GridPosition>();
         for (var x = -maxShootGrid; x <= maxShootGrid; x++) {
             for (var z = -maxShootGrid; z <= maxShootGrid; z++) {
-                var testGridPosition = gridPosition + new GridPosition(x, z);
+                var testGridPosition = baseGridPosition + new GridPosition(x, z);
                 if (!LevelGrid.Instance.IsValidGridPosition(testGridPosition)) {
                     continue;
                 }
@@ -131,6 +132,20 @@ public class ShootAction : BaseAction {
                 }
 
                 if (unitAtTestGridPosition.IsPlayer() == unit.IsPlayer()) {
+                    continue;
+                }
+
+                var baseWorldPosition = LevelGrid.Instance.GetWorldPosition(baseGridPosition);
+                var testWorldPosition = LevelGrid.Instance.GetWorldPosition(testGridPosition);
+                var testDir = (testWorldPosition - baseWorldPosition).normalized;
+                var distance = Vector3.Distance(testWorldPosition, baseWorldPosition);
+                // 校验视线与目标之前是否存在障碍
+                if (Physics.Raycast(
+                        baseWorldPosition + Vector3.up * Unit.HEIGHT_OFFSET,
+                        testDir,
+                        distance,
+                        obstacleLayerMask
+                    )) {
                     continue;
                 }
 
@@ -156,7 +171,8 @@ public class ShootAction : BaseAction {
                 }
 
                 var unitAtTestGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-                if (unitAtTestGridPosition != null) {
+
+                if (unitAtTestGridPosition != null && unitAtTestGridPosition.IsPlayer() == unit.IsPlayer()) {
                     continue;
                 }
 
