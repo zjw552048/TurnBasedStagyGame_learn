@@ -46,7 +46,8 @@ public class MoveAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
-        var gridPositionList = PathfindingManager.Instance.FindPath(unit.GetGridPosition(), targetGridPosition);
+        var gridPositionList =
+            PathfindingManager.Instance.FindPath(unit.GetGridPosition(), targetGridPosition, out var pathDistance);
         pathPositionList = new List<Vector3>();
         foreach (var gridPosition in gridPositionList) {
             pathPositionList.Add(LevelGrid.Instance.GetWorldPosition(gridPosition));
@@ -79,6 +80,12 @@ public class MoveAction : BaseAction {
                 }
 
                 if (!PathfindingManager.Instance.IsWalkable(testGridPosition)) {
+                    continue;
+                }
+
+                var pathDistance = PathfindingManager.Instance.GetPathDistance(unitGridPosition, testGridPosition);
+                var moveCostMultiple = PathfindingManager.MOVE_COST_MULTIPLE;
+                if (pathDistance < 0 || pathDistance > maxMoveGrid * moveCostMultiple) {
                     continue;
                 }
 

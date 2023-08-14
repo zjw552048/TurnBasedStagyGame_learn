@@ -4,6 +4,7 @@ using UnityEngine;
 public class PathfindingManager : MonoBehaviour {
     public static PathfindingManager Instance { get; private set; }
 
+    public const int MOVE_COST_MULTIPLE = 10;
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
     private const int RAY_CAST_OFFSET_Y = 5;
@@ -53,7 +54,7 @@ public class PathfindingManager : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.T)) {
             var gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            var pathGridPositionList = FindPath(new GridPosition(0, 0), gridPosition);
+            var pathGridPositionList = FindPath(new GridPosition(0, 0), gridPosition, out var pathDistance);
             if (pathGridPositionList == null) {
                 Debug.Log("Path not found!");
                 return;
@@ -67,7 +68,7 @@ public class PathfindingManager : MonoBehaviour {
         }
     }
 
-    public List<GridPosition> FindPath(GridPosition startPos, GridPosition endPos) {
+    public List<GridPosition> FindPath(GridPosition startPos, GridPosition endPos, out int pathDistance) {
         ResetAllPathNode();
 
         var openList = new List<PathNode>();
@@ -90,6 +91,7 @@ public class PathfindingManager : MonoBehaviour {
             closedList.Add(currentNode);
 
             if (currentNode == endNode) {
+                pathDistance = endNode.GetFCost();
                 return GetPath(endNode);
             }
 
@@ -121,6 +123,7 @@ public class PathfindingManager : MonoBehaviour {
             }
         }
 
+        pathDistance = -1;
         return null;
     }
 
@@ -224,6 +227,11 @@ public class PathfindingManager : MonoBehaviour {
 
 
         return neighbourPathNodeList;
+    }
+
+    public int GetPathDistance(GridPosition startPos, GridPosition endPos) {
+        FindPath(startPos, endPos, out var pathDistance);
+        return pathDistance;
     }
 
     public bool IsWalkable(GridPosition gridPosition) {
