@@ -48,6 +48,8 @@ MonoBehaviour:
   moveSpeed: 15
   damageRadius: 4
   damageAmount: 30
+  grenadeExplosionVfxPrefab: {fileID: 3972168624491490570, guid: 66293a680bfc03e4ba92eeb708d6cee8,
+    type: 3}
 --- !u!1 &5767632287837575330
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class GrenadeProjectile : MonoBehaviour {
     [SerializeField] private float moveSpeed = 15f;
     [SerializeField] private float damageRadius = 4f;
     [SerializeField] private int damageAmount = 30;
+    [SerializeField] private Transform grenadeExplosionVfxPrefab;
 
     private Vector3 targetWorldPosition;
     private Action explosionCallback;
@@ -32,8 +33,10 @@ public class GrenadeProjectile : MonoBehaviour {
             }
 
             explosionCallback?.Invoke();
-            
+
             OnAnyGrenadeExplodedAction?.Invoke();
+
+            Instantiate(grenadeExplosionVfxPrefab, targetWorldPosition + Vector3.up, Quaternion.identity);
 
             Destroy(gameObject);
         }
