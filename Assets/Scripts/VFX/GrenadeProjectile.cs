@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GrenadeProjectile : MonoBehaviour {
@@ -6,9 +7,11 @@ public class GrenadeProjectile : MonoBehaviour {
     [SerializeField] private int damageAmount = 30;
 
     private Vector3 targetWorldPosition;
+    private Action explosionCallback;
 
-    public void SetUp(GridPosition targetPosition) {
+    public void SetUp(GridPosition targetPosition, Action explosionCallback) {
         targetWorldPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
+        this.explosionCallback = explosionCallback;
     }
 
     private void Update() {
@@ -25,6 +28,8 @@ public class GrenadeProjectile : MonoBehaviour {
                     unit.GetHealthComponent().GrenadeDamage(damageAmount, targetWorldPosition, damageRadius);
                 }
             }
+            
+            explosionCallback?.Invoke();
 
             Destroy(gameObject);
         }

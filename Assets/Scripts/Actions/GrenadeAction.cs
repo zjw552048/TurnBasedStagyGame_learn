@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,18 +16,19 @@ public class GrenadeAction : BaseAction {
             return;
         }
 
-        // TODO
-        Debug.Log("Grenade Action!");
-        ActionComplete();
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
         var grenadeProjectileTransform =
             Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
         var grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
-        grenadeProjectile.SetUp(targetGridPosition);
+        grenadeProjectile.SetUp(targetGridPosition, GrenadeExplosionCallback);
 
         ActionStart(actionCompletedCallback);
+    }
+
+    private void GrenadeExplosionCallback() {
+        ActionComplete();
     }
 
     public override List<GridPosition> GetValidActionGridPositions() {
