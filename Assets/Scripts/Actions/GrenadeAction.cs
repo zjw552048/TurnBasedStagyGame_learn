@@ -6,7 +6,7 @@ public class GrenadeAction : BaseAction {
     [SerializeField] private int maxThrowGrid = 9;
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private Transform grenadeProjectilePrefab;
-
+        
     public override string GetActionName() {
         return "Grenade";
     }

@@ -11,7 +11,6 @@ public class ShootAction : BaseAction {
     [SerializeField] private Transform gunFirePoint;
     [SerializeField] private Transform bulletProjectilePrefab;
 
-    public static event Action OnAnyShootAction;
     public event Action OnShootAction;
 
     private enum State {
@@ -47,8 +46,6 @@ public class ShootAction : BaseAction {
                 if (canShootBullet) {
                     canShootBullet = false;
                     Shoot();
-                    OnShootAction?.Invoke();
-                    OnAnyShootAction?.Invoke();
                 }
 
                 break;
@@ -93,6 +90,8 @@ public class ShootAction : BaseAction {
         var bulletProjectTransform = Instantiate(bulletProjectilePrefab, gunFirePoint.position, quaternion.identity);
         var bulletProjectile = bulletProjectTransform.GetComponent<BulletProjectile>();
         bulletProjectile.SetUp(shootTargetUnit.GetHealthComponent());
+
+        OnShootAction?.Invoke();
     }
 
     public override string GetActionName() {

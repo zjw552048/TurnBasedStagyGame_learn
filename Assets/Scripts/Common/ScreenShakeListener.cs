@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class ScreenShakeListener : MonoBehaviour {
     private void Start() {
-        ShootAction.OnAnyShootAction += ShootAction_OnAnyShootAction;
+        BulletProjectile.OnAnyBulletFiredAction += BulletProjectile_OnAnyBulletFriedAction;
+        GrenadeProjectile.OnAnyGrenadeExplodedAction += GrenadeProjectile_OnAnyGrenadeExplodedAction;
     }
 
-    private void ShootAction_OnAnyShootAction() {
+    private void BulletProjectile_OnAnyBulletFriedAction() {
         ScreenShake.Instance.ScreenShakeWithForce();
+    }
+
+    private void GrenadeProjectile_OnAnyGrenadeExplodedAction() {
+        ScreenShake.Instance.ScreenShakeWithForce(5);
     }
 }

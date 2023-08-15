@@ -9,6 +9,8 @@ public class GrenadeProjectile : MonoBehaviour {
     private Vector3 targetWorldPosition;
     private Action explosionCallback;
 
+    public static event Action OnAnyGrenadeExplodedAction;
+
     public void SetUp(GridPosition targetPosition, Action explosionCallback) {
         targetWorldPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
         this.explosionCallback = explosionCallback;
@@ -28,8 +30,10 @@ public class GrenadeProjectile : MonoBehaviour {
                     unit.GetHealthComponent().GrenadeDamage(damageAmount, targetWorldPosition, damageRadius);
                 }
             }
-            
+
             explosionCallback?.Invoke();
+            
+            OnAnyGrenadeExplodedAction?.Invoke();
 
             Destroy(gameObject);
         }

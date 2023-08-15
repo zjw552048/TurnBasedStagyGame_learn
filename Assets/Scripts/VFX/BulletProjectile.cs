@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BulletProjectile : MonoBehaviour {
@@ -5,6 +6,8 @@ public class BulletProjectile : MonoBehaviour {
     [SerializeField] private int damageAmount = 40;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Transform bulletHitVFXPrefab;
+    
+    public static event Action OnAnyBulletFiredAction;
 
     private HealthComponent healthComponent;
 
@@ -20,6 +23,8 @@ public class BulletProjectile : MonoBehaviour {
 
         moveDistance = Vector3.Distance(targetPos, bornPos);
         moveDir = (targetPos - bornPos).normalized;
+        
+        OnAnyBulletFiredAction?.Invoke();
     }
 
     private void Update() {
