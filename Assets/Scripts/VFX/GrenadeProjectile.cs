@@ -5,6 +5,8 @@ public class GrenadeProjectile : MonoBehaviour {
     [SerializeField] private float moveSpeed = 15f;
     [SerializeField] private float damageRadius = 4f;
     [SerializeField] private int damageAmount = 30;
+
+    [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Transform grenadeExplosionVfxPrefab;
 
     private Vector3 targetWorldPosition;
@@ -37,6 +39,9 @@ public class GrenadeProjectile : MonoBehaviour {
             OnAnyGrenadeExplodedAction?.Invoke();
 
             Instantiate(grenadeExplosionVfxPrefab, targetWorldPosition + Vector3.up, Quaternion.identity);
+
+            // 避免拖尾突然销毁:取消父节点，勾选Autodestruct自动销毁
+            trailRenderer.transform.parent = null;
 
             Destroy(gameObject);
         }
