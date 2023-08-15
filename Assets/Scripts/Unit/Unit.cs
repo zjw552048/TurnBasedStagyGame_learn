@@ -1,4 +1,5 @@
 using System;
+using Enum;
 using UnityEngine;
 
 public class Unit : MonoBehaviour {
@@ -42,7 +43,7 @@ public class Unit : MonoBehaviour {
         ResetActionPoints();
     }
 
-    private void HealthComponent_OnHealthZeroAction(Vector3 damageForce) {
+    private void HealthComponent_OnHealthZeroAction(object sender, HealthComponent.OnHealthZeroActionArgs args) {
         OnAnyUnitDestroyAction?.Invoke(this);
         
         LevelGrid.Instance.RemoveUnitAtGridPosition(this, gridPosition);

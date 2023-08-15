@@ -11,7 +11,7 @@ public class BulletProjectile : MonoBehaviour {
     private float moveDistance;
     private Vector3 moveDir;
 
-    public void SetDamageTarget(HealthComponent targetHealthComponent) {
+    public void SetUp(HealthComponent targetHealthComponent) {
         healthComponent = targetHealthComponent;
 
         var targetPos = targetHealthComponent.transform.position;
@@ -39,6 +39,6 @@ public class BulletProjectile : MonoBehaviour {
         // 实例化击中特效
         Instantiate(bulletHitVFXPrefab, transform.position, Quaternion.identity);
 
-        healthComponent.Damage(damageAmount, moveDir);
+        healthComponent.ShootDamage(damageAmount, moveDir);
     }
 }

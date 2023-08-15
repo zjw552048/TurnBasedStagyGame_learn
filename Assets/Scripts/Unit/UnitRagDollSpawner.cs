@@ -1,3 +1,4 @@
+using Enum;
 using UnityEngine;
 
 public class UnitRagDollSpawner : MonoBehaviour {
@@ -14,9 +15,9 @@ public class UnitRagDollSpawner : MonoBehaviour {
         healthComponent.OnHealthZeroAction += HealthComponent_OnHealthZeroAction;
     }
 
-    private void HealthComponent_OnHealthZeroAction(Vector3 damageForce) {
+    private void HealthComponent_OnHealthZeroAction(object sender, HealthComponent.OnHealthZeroActionArgs args) {
         var unitRagDollTransform = Instantiate(unitRagDollPrefab, transform.position, transform.rotation);
         var unitRagDoll = unitRagDollTransform.GetComponent<UnitRagDoll>();
-        unitRagDoll.SetUp(boneRoot, damageForce);
+        unitRagDoll.SetUp(boneRoot, args);
     }
 }

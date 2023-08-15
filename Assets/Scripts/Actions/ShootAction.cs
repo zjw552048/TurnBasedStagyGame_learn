@@ -92,7 +92,7 @@ public class ShootAction : BaseAction {
     private void Shoot() {
         var bulletProjectTransform = Instantiate(bulletProjectilePrefab, gunFirePoint.position, quaternion.identity);
         var bulletProjectile = bulletProjectTransform.GetComponent<BulletProjectile>();
-        bulletProjectile.SetDamageTarget(shootTargetUnit.GetHealthComponent());
+        bulletProjectile.SetUp(shootTargetUnit.GetHealthComponent());
     }
 
     public override string GetActionName() {

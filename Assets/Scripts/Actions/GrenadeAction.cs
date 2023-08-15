@@ -6,6 +6,7 @@ using UnityEngine;
 public class GrenadeAction : BaseAction {
     [SerializeField] private int maxThrowGrid = 9;
     [SerializeField] private float rotateSpeed = 10f;
+    [SerializeField] private Transform grenadeProjectilePrefab;
 
     public override string GetActionName() {
         return "Grenade";
@@ -22,7 +23,11 @@ public class GrenadeAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
-        // TODO
+        var grenadeProjectileTransform =
+            Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
+        var grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
+        grenadeProjectile.SetUp(targetGridPosition);
+
         ActionStart(actionCompletedCallback);
     }
 

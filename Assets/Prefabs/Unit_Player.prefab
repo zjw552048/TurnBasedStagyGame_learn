@@ -576,6 +576,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxThrowGrid: 9
   rotateSpeed: 10
+  grenadeProjectilePrefab: {fileID: 8678398784064505237, guid: cfc3d648407cb2b4ebada760a365d7df,
+    type: 3}
 --- !u!114 &4251940047289902768
 MonoBehaviour:
   m_ObjectHideFlags: 0
