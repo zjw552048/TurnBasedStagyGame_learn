@@ -73,6 +73,10 @@ public class GrenadeProjectile : MonoBehaviour {
             if (result.TryGetComponent(out Unit unit)) {
                 unit.GetHealthComponent().GrenadeDamage(damageAmount, targetWorldPosition, damageRadius);
             }
+
+            if (result.TryGetComponent(out DestructableCrate crate)) {
+                crate.Damage();
+            }
         }
 
         explosionCallback?.Invoke();
