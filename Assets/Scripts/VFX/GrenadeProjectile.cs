@@ -9,41 +9,81 @@ public class GrenadeProjectile : MonoBehaviour {
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Transform grenadeExplosionVfxPrefab;
 
+    [SerializeField] private AnimationCurve shortRangePosYCurve;
+    [SerializeField] private AnimationCurve longRangePosYCurve;
+    [SerializeField] private AnimationCurve superLongRangePosYCurve;
+
     private Vector3 targetWorldPosition;
     private Action explosionCallback;
+
+    private float xzMoveDistance;
+    private float xzMoveDistanceLeft;
+    private float maxY;
+    private Vector3 xzMoveDir;
+    private Vector3 xzPosition;
 
     public static event Action OnAnyGrenadeExplodedAction;
 
     public void SetUp(GridPosition targetPosition, Action explosionCallback) {
         targetWorldPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
         this.explosionCallback = explosionCallback;
+
+        var xyBornPos = transform.position;
+        xyBornPos.y = 0;
+
+        xzMoveDistance = Vector3.Distance(targetWorldPosition, xyBornPos);
+        xzMoveDistanceLeft = xzMoveDistance;
+        maxY = xzMoveDistance / 3f;
+
+        xzMoveDir = (targetWorldPosition - xyBornPos).normalized;
+        xzPosition = xyBornPos;
     }
 
     private void Update() {
-        var moveDir = (targetWorldPosition - transform.position).normalized;
-        transform.position += moveDir * Time.deltaTime * moveSpeed;
+        var distance = moveSpeed * Time.deltaTime;
+        if (xzMoveDistanceLeft > distance) {
+            xzMoveDistanceLeft -= distance;
+            xzPosition += xzMoveDir * distance;
 
-        // TODO, 移动计算方式待修改
+            #region 确保初始高度为Unit.HEIGHT_OFFSET,同时通过curve的比例也固定了最大高度
 
-        if (Vector3.Distance(transform.position, targetWorldPosition) < 0.2f) {
-            // 造成伤害
-            var colliderResults = Physics.OverlapSphere(targetWorldPosition, damageRadius);
-            foreach (var result in colliderResults) {
-                if (result.TryGetComponent(out Unit unit)) {
-                    unit.GetHealthComponent().GrenadeDamage(damageAmount, targetWorldPosition, damageRadius);
-                }
-            }
+            var posYCurve = xzMoveDistance switch {
+                < 8 => shortRangePosYCurve,
+                < 14 => longRangePosYCurve,
+                _ => superLongRangePosYCurve
+            };
 
-            explosionCallback?.Invoke();
+            var timeNormalized = 1 - xzMoveDistanceLeft / xzMoveDistance;
+            var yNormalized = posYCurve.Evaluate(timeNormalized);
+            var yNormalizedZero = posYCurve.Evaluate(0);
+            var y = Unit.HEIGHT_OFFSET / yNormalizedZero * yNormalized;
 
-            OnAnyGrenadeExplodedAction?.Invoke();
+            #endregion
 
-            Instantiate(grenadeExplosionVfxPrefab, targetWorldPosition + Vector3.up, Quaternion.identity);
+            transform.position = new Vector3(xzPosition.x, y, xzPosition.z);
 
-            // 避免拖尾突然销毁:取消父节点，勾选Autodestruct自动销毁
-            trailRenderer.transform.parent = null;
-
-            Destroy(gameObject);
+            return;
         }
+
+        transform.position = targetWorldPosition;
+
+        // 造成伤害
+        var colliderResults = Physics.OverlapSphere(targetWorldPosition, damageRadius);
+        foreach (var result in colliderResults) {
+            if (result.TryGetComponent(out Unit unit)) {
+                unit.GetHealthComponent().GrenadeDamage(damageAmount, targetWorldPosition, damageRadius);
+            }
+        }
+
+        explosionCallback?.Invoke();
+
+        OnAnyGrenadeExplodedAction?.Invoke();
+
+        Instantiate(grenadeExplosionVfxPrefab, targetWorldPosition + Vector3.up, Quaternion.identity);
+
+        // 避免拖尾突然销毁:取消父节点，勾选Autodestruct自动销毁
+        trailRenderer.transform.parent = null;
+
+        Destroy(gameObject);
     }
 }

@@ -52,6 +52,78 @@ MonoBehaviour:
   trailRenderer: {fileID: 2689695486611362314}
   grenadeExplosionVfxPrefab: {fileID: 3972168624491490570, guid: 66293a680bfc03e4ba92eeb708d6cee8,
     type: 3}
+  shortRangePosYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.145504
+      outSlope: -0.145504
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.04862745
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.7251635
+      outSlope: -2.7251635
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.025098026
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  longRangePosYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.6
+      inSlope: 2.2353916
+      outSlope: 2.2353916
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.26205674
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.032725
+      outSlope: -2.032725
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.030852616
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  superLongRangePosYCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.35
+      inSlope: 2.6520426
+      outSlope: 2.6520426
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.029166652
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -5.1773176
+      outSlope: -5.1773176
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.026425064
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5767632287837575330
 GameObject:
   m_ObjectHideFlags: 0
