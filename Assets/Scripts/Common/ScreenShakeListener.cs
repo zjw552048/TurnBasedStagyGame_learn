@@ -6,6 +6,6 @@ public class ScreenShakeListener : MonoBehaviour {
     }
 
     private void ShootAction_OnAnyShootAction() {
-        ScreenShake.Instance.ScreenShakeWithForce(2.5f);
+        ScreenShake.Instance.ScreenShakeWithForce();
     }
 }

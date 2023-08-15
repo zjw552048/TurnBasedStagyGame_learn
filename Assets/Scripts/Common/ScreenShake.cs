@@ -13,7 +13,7 @@ public class ScreenShake : MonoBehaviour {
     }
 
 
-    public void ScreenShakeWithForce(float force) {
+    public void ScreenShakeWithForce(float force = 1f) {
         cinemachineImpulseSource.GenerateImpulseWithForce(force);
     }
 }
