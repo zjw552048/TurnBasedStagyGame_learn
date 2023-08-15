@@ -11,6 +11,7 @@ public class ShootAction : BaseAction {
     [SerializeField] private Transform gunFirePoint;
     [SerializeField] private Transform bulletProjectilePrefab;
 
+    public static event Action OnAnyShootAction;
     public event Action OnShootAction;
 
     private enum State {
@@ -47,6 +48,7 @@ public class ShootAction : BaseAction {
                     canShootBullet = false;
                     Shoot();
                     OnShootAction?.Invoke();
+                    OnAnyShootAction?.Invoke();
                 }
 
                 break;
