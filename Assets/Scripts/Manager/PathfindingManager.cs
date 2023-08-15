@@ -32,7 +32,7 @@ public class PathfindingManager : MonoBehaviour {
             height,
             cellSize,
             gridPosition => new PathNode(gridPosition));
-        
+
         // 注释debugGrid
         // gridSystem.CreateDebugGrids(transform, debugGridPrefab);
 
@@ -236,5 +236,9 @@ public class PathfindingManager : MonoBehaviour {
 
     public bool IsWalkable(GridPosition gridPosition) {
         return GetPathNode(gridPosition.x, gridPosition.z).IsWalkable();
+    }
+
+    public void SetWalkable(GridPosition gridPosition, bool walkable) {
+        GetPathNode(gridPosition.x, gridPosition.z).SetWalkable(walkable);
     }
 }
