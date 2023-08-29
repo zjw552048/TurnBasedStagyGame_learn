@@ -5,6 +5,11 @@ using UnityEngine;
 public class SwordAction : BaseAction {
     [SerializeField] private int maxSwordSlashGrid = 1;
     [SerializeField] private float rotateSpeed = 10f;
+    [SerializeField] private int damageAmount = 100;
+
+    public static event Action OnAnySwordHitAction;
+    public event Action OnSwingStartAction;
+    public event Action OnSwingStopAction;
 
     private enum State {
         SwingSwordBeforeHit,
@@ -16,6 +21,8 @@ public class SwordAction : BaseAction {
     private const float SWING_SWORD_BEFORE_HIT_TIME = 0.5f;
     private const float SWING_SWORD_AFTER_HIT_TIME = 0.5f;
 
+    private Unit swordTargetUnit;
+
     private void Update() {
         if (!actionActive) {
             return;
@@ -23,6 +30,8 @@ public class SwordAction : BaseAction {
 
         switch (state) {
             case State.SwingSwordBeforeHit:
+                var dir = (swordTargetUnit.transform.position - transform.position).normalized;
+                transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * rotateSpeed);
                 break;
 
             case State.SwingSwordAfterHit:
@@ -45,10 +54,15 @@ public class SwordAction : BaseAction {
             case State.SwingSwordBeforeHit:
                 actionTimer = SWING_SWORD_AFTER_HIT_TIME;
                 state = State.SwingSwordAfterHit;
+
+                var dir = (swordTargetUnit.transform.position - transform.position).normalized;
+                swordTargetUnit.GetHealthComponent().SwordDamage(damageAmount, dir);
+
+                OnAnySwordHitAction?.Invoke();
                 break;
 
             case State.SwingSwordAfterHit:
-                Debug.Log("SwordActionDone!");
+                OnSwingStopAction?.Invoke();
                 ActionComplete();
                 break;
 
@@ -62,8 +76,12 @@ public class SwordAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
+        swordTargetUnit = LevelGrid.Instance.GetUnitAtGridPosition(targetGridPosition);
+
         actionTimer = SWING_SWORD_BEFORE_HIT_TIME;
         state = State.SwingSwordBeforeHit;
+
+        OnSwingStartAction?.Invoke();
 
         ActionStart(actionCompletedCallback);
     }
@@ -82,14 +100,14 @@ public class SwordAction : BaseAction {
                     continue;
                 }
 
-                // var unitAtGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-                // if (unitAtGridPosition == null) {
-                //     continue;
-                // }
-                //
-                // if (unitAtGridPosition.IsPlayer() == unit.IsPlayer()) {
-                //     continue;
-                // }
+                var unitAtGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                if (unitAtGridPosition == null) {
+                    continue;
+                }
+
+                if (unitAtGridPosition.IsPlayer() == unit.IsPlayer()) {
+                    continue;
+                }
 
                 validGridPositionList.Add(testGridPosition);
             }

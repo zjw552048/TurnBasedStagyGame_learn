@@ -53,6 +53,10 @@ public class HealthComponent : MonoBehaviour {
             damageRadius = damageRadius
         });
     }
+    
+    public void SwordDamage(int damageAmount, Vector3 damageDir) {
+        ShootDamage(damageAmount, damageDir);
+    }
 
     public float GetHealthNormalized() {
         return (float) healthValue / maxHealthValue;
