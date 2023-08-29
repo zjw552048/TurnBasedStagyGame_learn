@@ -96,25 +96,19 @@ public class MoveAction : BaseAction {
         return validGridPositionList;
     }
 
-    public override List<EnemyAIAction> GetEnemyAIAction() {
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
         var shootAction = unit.GetAction<ShootAction>();
 
-        var enemyAiActionList = new List<EnemyAIAction>();
-        var validActionGridPositions = GetValidActionGridPositions();
 
         const int basePriority = (int) EnemyAIActionBasePriority.Move;
-        foreach (var validGridPosition in validActionGridPositions) {
-            var moveGridVector = validGridPosition - unit.GetGridPosition();
-            var moveGridDistance = Mathf.Abs(moveGridVector.x) + Mathf.Abs(moveGridVector.z);
+        var moveGridVector = gridPosition - unit.GetGridPosition();
+        var moveGridDistance = Mathf.Abs(moveGridVector.x) + Mathf.Abs(moveGridVector.z);
 
-            var canShootGridPositionList = shootAction.GetValidActionGridPositions(validGridPosition);
-            enemyAiActionList.Add(new EnemyAIAction {
-                gridPosition = validGridPosition,
-                // 基础行为优先级 + 优先选择可攻击目标数量较多 + 需要移动距离最短的grid
-                actionPriority = basePriority + canShootGridPositionList.Count * 100 - moveGridDistance
-            });
-        }
-
-        return enemyAiActionList;
+        var canShootGridPositionList = shootAction.GetValidActionGridPositions(gridPosition);
+        return new EnemyAIAction {
+            gridPosition = gridPosition,
+            // 基础行为优先级 + 优先选择可攻击目标数量较多 + 需要移动距离最短的grid
+            actionPriority = basePriority + canShootGridPositionList.Count * 100 - moveGridDistance
+        };
     }
 }

@@ -184,21 +184,14 @@ public class ShootAction : BaseAction {
         return validGridPositionList;
     }
 
-    public override List<EnemyAIAction> GetEnemyAIAction() {
-        var enemyAiActionList = new List<EnemyAIAction>();
-        var validActionGridPositions = GetValidActionGridPositions();
-
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
         const int basePriority = (int) EnemyAIActionBasePriority.Shoot;
-        foreach (var validGridPosition in validActionGridPositions) {
-            var unitAtGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(validGridPosition);
-            var healthNormalized = unitAtGridPosition.GetHealthComponent().GetHealthNormalized();
-            enemyAiActionList.Add(new EnemyAIAction {
-                gridPosition = validGridPosition,
-                // 基础行为优先级 + 优先选择剩余血量较低目标
-                actionPriority = basePriority + (int) ((1 - healthNormalized) * 100)
-            });
-        }
-
-        return enemyAiActionList;
+        var unitAtGridPosition = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        var healthNormalized = unitAtGridPosition.GetHealthComponent().GetHealthNormalized();
+        return new EnemyAIAction {
+            gridPosition = gridPosition,
+            // 基础行为优先级 + 优先选择剩余血量较低目标
+            actionPriority = basePriority + (int) ((1 - healthNormalized) * 100)
+        };
     }
 }

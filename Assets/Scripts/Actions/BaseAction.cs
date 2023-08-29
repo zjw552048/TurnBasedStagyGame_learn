@@ -43,10 +43,15 @@ public abstract class BaseAction : MonoBehaviour {
         actionCompletedCallback?.Invoke();
     }
 
-    public abstract List<EnemyAIAction> GetEnemyAIAction();
+    public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
 
     public EnemyAIAction GetBestEnemyAIAction() {
-        var validActionList = GetEnemyAIAction();
+        var validActionList = new List<EnemyAIAction>();
+        var validActionGridPositions = GetValidActionGridPositions();
+        foreach (var gridPosition in validActionGridPositions) {
+            var enemyAIAction = GetEnemyAIAction(gridPosition);
+            validActionList.Add(enemyAIAction);
+        }
         if (validActionList.Count <= 0) {
             return default;
         }

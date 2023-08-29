@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enum;
 using UnityEngine;
 
 public class GrenadeAction : BaseAction {
@@ -20,10 +21,6 @@ public class GrenadeAction : BaseAction {
 
         var dir = (targetWorldPosition - transform.position).normalized;
         transform.forward = Vector3.Slerp(transform.forward, dir, Time.deltaTime * rotateSpeed);
-        
-        Debug.Log(dir);
-        Debug.Log(transform.forward);
-        Debug.Log(transform.eulerAngles);
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
@@ -62,13 +59,11 @@ public class GrenadeAction : BaseAction {
         return validGridPositionList;
     }
 
-    public override List<EnemyAIAction> GetEnemyAIAction() {
-        // TODO
-        return new List<EnemyAIAction> {
-            new() {
-                gridPosition = unit.GetGridPosition(),
-                actionPriority = 0
-            }
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
+        const int basePriority = (int) EnemyAIActionBasePriority.Grenade;
+        return new EnemyAIAction {
+            gridPosition = gridPosition,
+            actionPriority = basePriority
         };
     }
 }

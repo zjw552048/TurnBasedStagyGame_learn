@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Enum;
 using UnityEngine;
 
 public class SwordAction : BaseAction {
@@ -143,18 +144,11 @@ public class SwordAction : BaseAction {
         return validGridPositionList;
     }
 
-    public override List<EnemyAIAction> GetEnemyAIAction() {
-        var enemyAiActionList = new List<EnemyAIAction>();
-        var validActionGridPosition = GetValidActionGridPositions();
-
-        foreach (var gridPosition in validActionGridPosition) {
-            enemyAiActionList.Add(new EnemyAIAction {
-                    gridPosition = gridPosition,
-                    actionPriority = 200
-                }
-            );
-        }
-
-        return enemyAiActionList;
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
+        const int basePriority = (int) EnemyAIActionBasePriority.Sword;
+        return new EnemyAIAction {
+            gridPosition = gridPosition,
+            actionPriority = basePriority
+        };
     }
 }

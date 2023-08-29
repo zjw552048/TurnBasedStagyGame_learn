@@ -46,19 +46,11 @@ public class SpinAction : BaseAction {
         return 2;
     }
 
-    public override List<EnemyAIAction> GetEnemyAIAction() {
-        var enemyAiActionList = new List<EnemyAIAction>();
-        
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {
         const int basePriority = (int) EnemyAIActionBasePriority.Spin;
-        
-        var validActionGridPositions = GetValidActionGridPositions();
-        foreach (var validGridPosition in validActionGridPositions) {
-            enemyAiActionList.Add(new EnemyAIAction {
-                gridPosition = validGridPosition,
-                actionPriority = basePriority
-            });
-        }
-
-        return enemyAiActionList;
+        return new EnemyAIAction {
+            gridPosition = gridPosition,
+            actionPriority = basePriority
+        };
     }
 }
