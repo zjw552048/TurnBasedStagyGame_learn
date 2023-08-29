@@ -31,7 +31,7 @@ public class SwordAction : BaseAction {
         switch (state) {
             case State.SwingSwordBeforeHit:
                 var dir = (swordTargetUnit.transform.position - transform.position).normalized;
-                transform.forward = Vector3.Lerp(transform.forward, dir, Time.deltaTime * rotateSpeed);
+                transform.forward = Vector3.Slerp(transform.forward, dir, Time.deltaTime * rotateSpeed);
                 break;
 
             case State.SwingSwordAfterHit:

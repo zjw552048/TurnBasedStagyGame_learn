@@ -6,7 +6,9 @@ public class GrenadeAction : BaseAction {
     [SerializeField] private int maxThrowGrid = 9;
     [SerializeField] private float rotateSpeed = 10f;
     [SerializeField] private Transform grenadeProjectilePrefab;
-        
+
+    private Vector3 targetWorldPosition;
+
     public override string GetActionName() {
         return "Grenade";
     }
@@ -16,9 +18,17 @@ public class GrenadeAction : BaseAction {
             return;
         }
 
+        var dir = (targetWorldPosition - transform.position).normalized;
+        transform.forward = Vector3.Slerp(transform.forward, dir, Time.deltaTime * rotateSpeed);
+        
+        Debug.Log(dir);
+        Debug.Log(transform.forward);
+        Debug.Log(transform.eulerAngles);
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
+        targetWorldPosition = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
+
         var grenadeProjectileTransform =
             Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
         var grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
