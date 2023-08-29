@@ -14,12 +14,17 @@ public class InteractAction : BaseAction {
         if (!actionActive) {
             return;
         }
-        
-        ActionComplete();
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
+        var doorAtGridPosition = LevelGrid.Instance.GetDoorAtGridPosition(targetGridPosition);
+        doorAtGridPosition.Interact(DoorInteractCallback);
+        
         ActionStart(actionCompletedCallback);
+    }
+
+    private void DoorInteractCallback() {
+        ActionComplete();
     }
 
     public override List<GridPosition> GetValidActionGridPositions() {
@@ -33,6 +38,11 @@ public class InteractAction : BaseAction {
                 }
 
                 if (Mathf.Abs(x) + Mathf.Abs(z) > maxInteractGrid) {
+                    continue;
+                }
+
+                var doorAtGridPosition = LevelGrid.Instance.GetDoorAtGridPosition(testGridPosition);
+                if (doorAtGridPosition == null) {
                     continue;
                 }
 

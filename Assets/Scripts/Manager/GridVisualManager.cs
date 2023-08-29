@@ -121,6 +121,10 @@ public class GridVisualManager : MonoBehaviour {
 
                 gridVisualColorType = GridVisualColorType.Red;
                 break;
+
+            case InteractAction interactAction:
+                gridVisualColorType = GridVisualColorType.Blue;
+                break;
         }
 
         var material = GetGridVisualMaterialByColor(gridVisualColorType);

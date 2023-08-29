@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public class GridObject {
     private GridPosition gridPosition;
     private List<Unit> unitList;
+    private Door door;
 
     public GridObject(GridPosition gridPosition) {
         this.gridPosition = gridPosition;
@@ -23,6 +24,14 @@ public class GridObject {
 
     public Unit GetUnit() {
         return unitList.Count > 0 ? unitList[0] : null;
+    }
+
+    public void SetDoor(Door value) {
+        door = value;
+    }
+
+    public Door GetDoor() {
+        return door;
     }
 
     public override string ToString() {
