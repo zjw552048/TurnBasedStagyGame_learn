@@ -17,8 +17,8 @@ public class InteractAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition targetGridPosition, Action actionCompletedCallback) {
-        var doorAtGridPosition = LevelGrid.Instance.GetDoorAtGridPosition(targetGridPosition);
-        doorAtGridPosition.Interact(DoorInteractCallback);
+        var interactable = LevelGrid.Instance.GetInteractableAtGridPosition(targetGridPosition);
+        interactable.Interact(DoorInteractCallback);
         
         ActionStart(actionCompletedCallback);
     }
@@ -41,8 +41,8 @@ public class InteractAction : BaseAction {
                     continue;
                 }
 
-                var doorAtGridPosition = LevelGrid.Instance.GetDoorAtGridPosition(testGridPosition);
-                if (doorAtGridPosition == null) {
+                var interactable = LevelGrid.Instance.GetInteractableAtGridPosition(testGridPosition);
+                if (interactable == null) {
                     continue;
                 }
 
