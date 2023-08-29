@@ -601,6 +601,7 @@ GameObject:
   - component: {fileID: 4251940047289902768}
   - component: {fileID: 5843789399345968342}
   - component: {fileID: 8540607527332952817}
+  - component: {fileID: 6586801651452774450}
   m_Layer: 7
   m_Name: Unit_Player
   m_TagString: Untagged
@@ -767,6 +768,19 @@ MonoBehaviour:
   maxSwordSlashGrid: 1
   rotateSpeed: 10
   damageAmount: 100
+--- !u!114 &6586801651452774450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553483243702146281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91c1f268f5ec28a4fb7163713a289fb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxInteractGrid: 1
 --- !u!1 &5508851038980340427
 GameObject:
   m_ObjectHideFlags: 0
