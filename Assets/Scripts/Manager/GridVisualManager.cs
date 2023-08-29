@@ -104,6 +104,18 @@ public class GridVisualManager : MonoBehaviour {
 
                 gridVisualColorType = GridVisualColorType.Red;
                 break;
+
+            case GrenadeAction grenadeAction:
+                gridVisualColorType = GridVisualColorType.Yellow;
+                break;
+
+            case SwordAction swordAction:
+                // 显示ShootRange范围内的GridVisual
+                var swordRangeGridPositions = swordAction.GetValidActionRangeGridPositions();
+                ShowGridVisuals(swordRangeGridPositions, GetGridVisualMaterialByColor(GridVisualColorType.RedSoft));
+
+                gridVisualColorType = GridVisualColorType.Red;
+                break;
         }
 
         var material = GetGridVisualMaterialByColor(gridVisualColorType);
