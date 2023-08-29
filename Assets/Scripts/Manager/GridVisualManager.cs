@@ -31,6 +31,7 @@ public class GridVisualManager : MonoBehaviour {
     private void Start() {
         UnitActionManager.Instance.OnSelectedActionAction += UnitActionManager_OnSelectedActionAction;
         Unit.OnAnyUnitGridPositionChangedAction += Unit_OnAnyUnitGridPositionChangedAction;
+        Unit.OnAnyUnitDestroyAction += UnitOnOnAnyUnitDestroyAction;
 
         InitAllGridVisual();
         HideAllGridVisual();
@@ -41,6 +42,10 @@ public class GridVisualManager : MonoBehaviour {
     }
 
     private void Unit_OnAnyUnitGridPositionChangedAction() {
+        UpdateGridVisual();
+    }
+
+    private void UnitOnOnAnyUnitDestroyAction(Unit obj) {
         UpdateGridVisual();
     }
 
