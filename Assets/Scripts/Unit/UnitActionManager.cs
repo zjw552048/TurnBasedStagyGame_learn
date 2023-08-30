@@ -27,7 +27,7 @@ public class UnitActionManager : MonoBehaviour {
             return;
         }
 
-        if (InputManager.Instance.IsMouseLeftButtonDown()) {
+        if (InputManager.Instance.IsMouseLeftButtonDownThisFrame()) {
             if (!TurnManager.Instance.IsPlayerTurn()) {
                 // 非玩家回合
                 return;

@@ -27,7 +27,7 @@ public class VirtualCameraController : MonoBehaviour {
 
     private void HandleMovement() {
         var inputVector = InputManager.Instance.GetMovementInputVector();
-        var moveDir = transform.forward * inputVector.z + transform.right * inputVector.x;
+        var moveDir = transform.forward * inputVector.y + transform.right * inputVector.x;
         transform.position += moveDir * moveSpeed * Time.deltaTime;
     }
 
