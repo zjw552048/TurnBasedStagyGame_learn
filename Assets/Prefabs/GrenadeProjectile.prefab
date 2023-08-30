@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   damageRadius: 4
-  damageAmount: 30
+  damageAmount: 50
   trailRenderer: {fileID: 2689695486611362314}
   grenadeExplosionVfxPrefab: {fileID: 3972168624491490570, guid: 66293a680bfc03e4ba92eeb708d6cee8,
     type: 3}
