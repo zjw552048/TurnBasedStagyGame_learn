@@ -8,16 +8,24 @@ public class InputManager : MonoBehaviour {
 
     private NewInputActions newInputActions;
 
+    private bool isMobilePlatform;
+
     private void Awake() {
         Instance = this;
 
         newInputActions = new NewInputActions();
         newInputActions.Player.Enable();
+
+        isMobilePlatform = Application.isMobilePlatform;
     }
 
     public Vector3 GetMousePosition() {
 #if USE_NEW_INPUT_SYSTEM
-        return Mouse.current.position.ReadValue();
+        if (isMobilePlatform) {
+            return Touchscreen.current.primaryTouch.position.ReadValue();
+        } else {
+            return Mouse.current.position.ReadValue();
+        }
 #else
         return Input.mousePosition;
 #endif
@@ -25,7 +33,12 @@ public class InputManager : MonoBehaviour {
 
     public bool IsMouseLeftButtonDownThisFrame() {
 #if USE_NEW_INPUT_SYSTEM
-        return newInputActions.Player.Click.WasPressedThisFrame();
+        if (isMobilePlatform) {
+            return Touchscreen.current.primaryTouch.press.isPressed;
+        } else {
+            return Mouse.current.leftButton.wasPressedThisFrame;
+        }
+
 #else
         return Input.GetMouseButtonDown(0);
 #endif
@@ -75,6 +88,7 @@ public class InputManager : MonoBehaviour {
 
     public float GetZoomInput() {
 #if USE_NEW_INPUT_SYSTEM
+        Debug.Log(newInputActions.Player.CameraZoom.ReadValue<float>());
         return newInputActions.Player.CameraZoom.ReadValue<float>();
 #else
         if (Input.mouseScrollDelta.y > 0) {
