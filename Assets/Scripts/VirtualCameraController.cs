@@ -26,52 +26,22 @@ public class VirtualCameraController : MonoBehaviour {
     }
 
     private void HandleMovement() {
-        var inputVector = new Vector3();
-        if (Input.GetKey(KeyCode.W)) {
-            inputVector.z = 1f;
-        }
-
-        if (Input.GetKey(KeyCode.S)) {
-            inputVector.z = -1f;
-        }
-
-        if (Input.GetKey(KeyCode.A)) {
-            inputVector.x = -1f;
-        }
-
-        if (Input.GetKey(KeyCode.D)) {
-            inputVector.x = 1f;
-        }
-
+        var inputVector = InputManager.Instance.GetMovementInputVector();
         var moveDir = transform.forward * inputVector.z + transform.right * inputVector.x;
         transform.position += moveDir * moveSpeed * Time.deltaTime;
     }
 
     private void HandleRotation() {
         var rotateVector = new Vector3();
-        if (Input.GetKey(KeyCode.Q)) {
-            rotateVector.y = 1f;
-        }
-
-        if (Input.GetKey(KeyCode.E)) {
-            rotateVector.y = -1f;
-        }
-
+        rotateVector.y = InputManager.Instance.GetRotationInputVector();
         transform.eulerAngles += rotateVector * rotateSpeed * Time.deltaTime;
     }
 
     private void HandleZoom() {
-        var followOffset = transposer.m_FollowOffset;
-        if (Input.mouseScrollDelta.y > 0) {
-            targetCameraFollowOffsetY += 1f;
-        }
-
-        if (Input.mouseScrollDelta.y < 0) {
-            targetCameraFollowOffsetY -= 1f;
-        }
-
+        targetCameraFollowOffsetY += InputManager.Instance.GetZoomInput();
         targetCameraFollowOffsetY = Mathf.Clamp(targetCameraFollowOffsetY, minFollowOffsetY, maxFollowOffsetY);
 
+        var followOffset = transposer.m_FollowOffset;
         followOffset.y = Mathf.SmoothStep(followOffset.y, targetCameraFollowOffsetY, zoomSpeed * Time.deltaTime);
         transposer.m_FollowOffset = followOffset;
     }

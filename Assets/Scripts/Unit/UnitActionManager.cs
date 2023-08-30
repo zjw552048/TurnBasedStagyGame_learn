@@ -27,7 +27,7 @@ public class UnitActionManager : MonoBehaviour {
             return;
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (InputManager.Instance.IsMouseLeftButtonDown()) {
             if (!TurnManager.Instance.IsPlayerTurn()) {
                 // 非玩家回合
                 return;
@@ -48,7 +48,7 @@ public class UnitActionManager : MonoBehaviour {
     }
 
     private bool HandleSelectUnit() {
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMousePosition());
         var hitSuccess = Physics.Raycast(ray, out var hitInfo, float.MaxValue, unitsLayerMask);
         if (!hitSuccess) {
             return false;

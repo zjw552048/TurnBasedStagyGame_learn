@@ -51,22 +51,22 @@ public class PathfindingManager : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.T)) {
-            var gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            var pathGridPositionList = FindPath(new GridPosition(0, 0), gridPosition, out var pathDistance);
-            if (pathGridPositionList == null) {
-                Debug.Log("Path not found!");
-                return;
-            }
-
-            for (var index = 0; index < pathGridPositionList.Count - 1; index++) {
-                var pathGridPosition = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[index]);
-                var nextPathGridPosition = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[index + 1]);
-                Debug.DrawLine(pathGridPosition, nextPathGridPosition, Color.red, 10f);
-            }
-        }
-    }
+    // private void Update() {
+    //     if (Input.GetKeyDown(KeyCode.T)) {
+    //         var gridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+    //         var pathGridPositionList = FindPath(new GridPosition(0, 0), gridPosition, out var pathDistance);
+    //         if (pathGridPositionList == null) {
+    //             Debug.Log("Path not found!");
+    //             return;
+    //         }
+    //
+    //         for (var index = 0; index < pathGridPositionList.Count - 1; index++) {
+    //             var pathGridPosition = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[index]);
+    //             var nextPathGridPosition = LevelGrid.Instance.GetWorldPosition(pathGridPositionList[index + 1]);
+    //             Debug.DrawLine(pathGridPosition, nextPathGridPosition, Color.red, 10f);
+    //         }
+    //     }
+    // }
 
     public List<GridPosition> FindPath(GridPosition startPos, GridPosition endPos, out int pathDistance) {
         ResetAllPathNode();
