@@ -33,7 +33,7 @@ public class VirtualCameraController : MonoBehaviour {
 
     private void HandleRotation() {
         var rotateVector = new Vector3();
-        rotateVector.y = InputManager.Instance.GetRotationInputVector();
+        rotateVector.y = InputManager.Instance.GetRotationInput();
         transform.eulerAngles += rotateVector * rotateSpeed * Time.deltaTime;
     }
 

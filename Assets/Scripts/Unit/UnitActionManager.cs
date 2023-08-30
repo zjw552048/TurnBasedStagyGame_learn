@@ -33,8 +33,14 @@ public class UnitActionManager : MonoBehaviour {
                 return;
             }
 
-            if (EventSystem.current.IsPointerOverGameObject()) {
+            if (InputManager.Instance.IsPointerOverGameObject()) {
                 // 点击到UI
+                return;
+            }
+
+
+            if (InputManager.Instance.IsAdjustCamera()) {
+                // 正在调整视角
                 return;
             }
 

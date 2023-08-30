@@ -204,7 +204,7 @@ public partial class @NewInputActions: IInputActionCollection2, IDisposable
                     ""id"": ""0b32dad5-66ce-4609-95dd-ba998c94be82"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
-                    ""processors"": ""Clamp(min=-1,max=1),Scale(factor=0.05)"",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
                     ""groups"": """",
                     ""action"": ""CameraZoom"",
                     ""isComposite"": true,
