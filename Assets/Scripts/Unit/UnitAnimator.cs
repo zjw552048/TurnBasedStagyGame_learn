@@ -15,18 +15,20 @@ public class UnitAnimator : MonoBehaviour {
     private void Awake() {
         animator = GetComponent<Animator>();
 
-        if (unit.TryGetComponent(out MoveAction moveAction)) {
-            moveAction.OnMovingStartAction += MoveAction_OnMovingStartAction;
-            moveAction.OnMovingStopAction += MoveAction_OnMovingStopAction;
-        }
+        if (unit != null) {
+            if (unit.TryGetComponent(out MoveAction moveAction)) {
+                moveAction.OnMovingStartAction += MoveAction_OnMovingStartAction;
+                moveAction.OnMovingStopAction += MoveAction_OnMovingStopAction;
+            }
 
-        if (unit.TryGetComponent(out ShootAction shootAction)) {
-            shootAction.OnShootAction += ShootAction_OnShootAction;
-        }
+            if (unit.TryGetComponent(out ShootAction shootAction)) {
+                shootAction.OnShootAction += ShootAction_OnShootAction;
+            }
 
-        if (unit.TryGetComponent(out SwordAction swordAction)) {
-            swordAction.OnSwingStartAction += SwordAction_OnSwingStartAction;
-            swordAction.OnSwingStopAction += SwordAction_OnSwingStopAction;
+            if (unit.TryGetComponent(out SwordAction swordAction)) {
+                swordAction.OnSwingStartAction += SwordAction_OnSwingStartAction;
+                swordAction.OnSwingStopAction += SwordAction_OnSwingStopAction;
+            }
         }
     }
 
