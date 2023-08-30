@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class UnitManager : MonoBehaviour {
     private List<Unit> unitList;
     private List<Unit> enemyUnitList;
     private List<Unit> playerUnitList;
+
+    public event Action OnAllPlayerUnitLostAction;
 
     private void Awake() {
         unitList = new List<Unit>();
@@ -33,6 +36,9 @@ public class UnitManager : MonoBehaviour {
         unitList.Remove(unit);
         if (unit.IsPlayer()) {
             playerUnitList.Remove(unit);
+            if (playerUnitList.Count == 0) {
+                OnAllPlayerUnitLostAction?.Invoke();
+            }
         } else {
             enemyUnitList.Remove(unit);
         }
