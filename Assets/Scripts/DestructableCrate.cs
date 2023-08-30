@@ -4,6 +4,7 @@ using UnityEngine;
 public class DestructableCrate : MonoBehaviour {
     [SerializeField] private Transform crateDestructedPrefab;
     public static event Action<GridPosition> OnAnyCrateDestructedAction;
+
     public static void ResetStaticData() {
         OnAnyCrateDestructedAction = null;
     }
@@ -14,6 +15,7 @@ public class DestructableCrate : MonoBehaviour {
 
         var crateDestructedTransform = Instantiate(crateDestructedPrefab, transform.position, transform.rotation);
         AddExplosionForce(crateDestructedTransform, damageAmount, damageCenter, damageRadius);
+        Destroy(crateDestructedTransform.gameObject, 3f);
 
         Destroy(gameObject);
     }

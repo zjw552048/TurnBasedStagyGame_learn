@@ -60,7 +60,6 @@ public class Door : MonoBehaviour, IInteractable {
             DoorClose();
         }
 
-        Debug.Log("door interact, isOpen:" + isOpen);
     }
 
     private void DoorOpen() {
