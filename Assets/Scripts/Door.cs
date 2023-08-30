@@ -5,7 +5,9 @@ public class Door : MonoBehaviour, IInteractable {
     [SerializeField] private bool isOpen;
     [SerializeField] private float interactDuration = 0.5f;
 
-    private GridPosition gridPosition;
+    private GridPosition leftGridPosition;
+    private GridPosition rightGridPosition;
+
     private bool isInteracting;
     private float interactTimer;
     private Action interactCallback;
@@ -13,13 +15,17 @@ public class Door : MonoBehaviour, IInteractable {
     private Animator animator;
     private static readonly int IS_OPEN = Animator.StringToHash("IsOpen");
 
+    public event Action OnDoorOpenAction;
+
     private void Awake() {
         animator = GetComponent<Animator>();
     }
 
     private void Start() {
-        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.SetInteractableAtGridPosition(this, gridPosition);
+        leftGridPosition = LevelGrid.Instance.GetGridPosition(transform.position - transform.right);
+        rightGridPosition = LevelGrid.Instance.GetGridPosition(transform.position + transform.right);
+        LevelGrid.Instance.SetInteractableAtGridPosition(this, leftGridPosition);
+        LevelGrid.Instance.SetInteractableAtGridPosition(this, rightGridPosition);
 
         if (isOpen) {
             DoorOpen();
@@ -59,11 +65,14 @@ public class Door : MonoBehaviour, IInteractable {
 
     private void DoorOpen() {
         animator.SetBool(IS_OPEN, isOpen);
-        PathfindingManager.Instance.SetWalkable(gridPosition, isOpen);
+        PathfindingManager.Instance.SetWalkable(leftGridPosition, isOpen);
+        PathfindingManager.Instance.SetWalkable(rightGridPosition, isOpen);
+        OnDoorOpenAction?.Invoke();
     }
 
     private void DoorClose() {
         animator.SetBool(IS_OPEN, isOpen);
-        PathfindingManager.Instance.SetWalkable(gridPosition, isOpen);
+        PathfindingManager.Instance.SetWalkable(leftGridPosition, isOpen);
+        PathfindingManager.Instance.SetWalkable(rightGridPosition, isOpen);
     }
 }
