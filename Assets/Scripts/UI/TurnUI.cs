@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class TurnUI : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI turnNumberText;
     [SerializeField] private Button endTurnBtn;
+    [SerializeField] private Button backBtn;
 
     private void Start() {
         endTurnBtn.onClick.AddListener(() => { TurnManager.Instance.EnterNextTurn(); });
+        backBtn.onClick.AddListener(() => { SceneLoader.LoadScene(SceneLoader.SceneName.MainMenuScene);});
 
         TurnManager.Instance.OnTurnChangedAction += TurnManager_OnTurnChangedAction;
 

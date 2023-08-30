@@ -88,7 +88,6 @@ public class InputManager : MonoBehaviour {
 
     public float GetZoomInput() {
 #if USE_NEW_INPUT_SYSTEM
-        Debug.Log(newInputActions.Player.CameraZoom.ReadValue<float>());
         return newInputActions.Player.CameraZoom.ReadValue<float>();
 #else
         if (Input.mouseScrollDelta.y > 0) {
