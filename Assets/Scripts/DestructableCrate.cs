@@ -4,6 +4,9 @@ using UnityEngine;
 public class DestructableCrate : MonoBehaviour {
     [SerializeField] private Transform crateDestructedPrefab;
     public static event Action<GridPosition> OnAnyCrateDestructedAction;
+    public static void ResetStaticData() {
+        OnAnyCrateDestructedAction = null;
+    }
 
     public void Damage(int damageAmount, Vector3 damageCenter, float damageRadius) {
         var gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);

@@ -8,6 +8,13 @@ public class Unit : MonoBehaviour {
     public static event Action<Unit> OnAnyUnitSpawnAction;
     public static event Action<Unit> OnAnyUnitDestroyAction;
 
+    public static void ResetStaticData() {
+        OnAnyUnitActionPointsChangedAction = null;
+        OnAnyUnitGridPositionChangedAction = null;
+        OnAnyUnitSpawnAction = null;
+        OnAnyUnitDestroyAction = null;
+    }
+
     [SerializeField] private bool isPlayer;
 
     public const float HEIGHT_OFFSET = 1.7f;
@@ -46,7 +53,7 @@ public class Unit : MonoBehaviour {
     private void HealthComponent_OnHealthZeroAction(object sender, HealthComponent.OnHealthZeroActionArgs args) {
         LevelGrid.Instance.RemoveUnitAtGridPosition(this, gridPosition);
         Destroy(gameObject);
-        
+
         OnAnyUnitDestroyAction?.Invoke(this);
     }
 

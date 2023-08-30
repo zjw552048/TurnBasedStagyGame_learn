@@ -8,6 +8,9 @@ public class BulletProjectile : MonoBehaviour {
     [SerializeField] private Transform bulletHitVFXPrefab;
     
     public static event Action OnAnyBulletFiredAction;
+    public static void ResetStaticData() {
+        OnAnyBulletFiredAction = null;
+    }
 
     private HealthComponent healthComponent;
 

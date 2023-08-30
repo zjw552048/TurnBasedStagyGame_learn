@@ -23,6 +23,10 @@ public class GrenadeProjectile : MonoBehaviour {
     private Vector3 xzPosition;
 
     public static event Action OnAnyGrenadeExplodedAction;
+    public static void ResetStaticData() {
+        OnAnyGrenadeExplodedAction = null;
+    }
+
 
     public void SetUp(GridPosition targetPosition, Action explosionCallback) {
         targetWorldPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);

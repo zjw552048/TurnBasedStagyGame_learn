@@ -9,6 +9,11 @@ public class SwordAction : BaseAction {
     [SerializeField] private int damageAmount = 100;
 
     public static event Action OnAnySwordHitAction;
+    
+    public static void ResetStaticData() {
+        OnAnySwordHitAction = null;
+    }
+    
     public event Action OnSwingStartAction;
     public event Action OnSwingStopAction;
 
